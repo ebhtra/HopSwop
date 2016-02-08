@@ -18,6 +18,12 @@ extension UIViewController {
         }
     }
     
+    func displayGenericAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
     func showBackgroundBeer() {
         self.view.backgroundColor = UIColor.whiteColor()
         let colorTop = UIColor(red: 0.9, green: 0.6, blue: 0.1, alpha: 0.0).CGColor
@@ -29,4 +35,6 @@ extension UIViewController {
         backgroundGradient.frame = CGRect(x: 0, y: 0, width: view.frame.height, height: view.frame.height)
         self.view.layer.insertSublayer(backgroundGradient, atIndex: 0)
     }
+    
+    
 }

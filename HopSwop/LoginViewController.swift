@@ -11,7 +11,7 @@ import FBSDKCoreKit
 import FBSDKLoginKit
 
 
-class LoginViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButtonDelegate {
+class LoginViewController: BeerLoginController, FBSDKLoginButtonDelegate {
 
     @IBOutlet weak var usernameField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
@@ -20,14 +20,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButt
     @IBOutlet weak var signupButton: UIButton!
     @IBOutlet weak var facebookButton: FBSDKLoginButton!
     
-    // Will be used only to end editing
-    var tapRecognizer: UITapGestureRecognizer?
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-    
-        showBackgroundBeer()
         
         //See if user is logged in with Parse
         if let user = PFUser.currentUser() {
@@ -36,19 +30,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButt
                 completeLogin()
             }
         }
-    
-        // Set up the tap recognizer
-        tapRecognizer = UITapGestureRecognizer(target: self, action: "handleTap")
-        
-    }
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        view.addGestureRecognizer(tapRecognizer!)
-    }
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
-        view.removeGestureRecognizer(tapRecognizer!)
     }
     // Since this VC isn't in the same UINavigation stack as the rest of the app
     @IBAction func unwindToLogin(segue: UIStoryboardSegue) {
@@ -60,25 +41,13 @@ class LoginViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButt
             FBSDKLoginManager().logOut()
         }
     }
-    // Remove the keyboard by tapping on the view (method called by tapRecognizer)
-    func handleTap() {
-        view.endEditing(true)
-    }
-    // Remove the keyboard by hitting RETURN key (method called by delegate: self)
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
-        view.endEditing(true)
-        return true
-    }
-    
     
     @IBAction func loginTapped(sender: UIButton) {
         PFUser.logInWithUsernameInBackground(usernameField.text!, password: passwordField.text!) { user, error in
             
             if user != nil {
                 if user!.valueForKey("emailVerified") as! Bool == false {
-                    let alert = UIAlertController(title: "Error", message: "Please check your email to verify the link to HopSwop", preferredStyle: UIAlertControllerStyle.Alert)
-                    alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
-                    self.presentViewController(alert, animated: true, completion: nil)
+                    self.displayGenericAlert("Error", message: "Please check your email to verify the link to HopSwop")
                 } else {
                     self.completeLogin()
                 }

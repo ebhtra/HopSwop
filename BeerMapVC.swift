@@ -18,14 +18,16 @@ class BeerMapVC: UIViewController, MKMapViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
         // store a batch of students from the Parse API and load them into map
-        ParseClient.sharedInstance.refreshBeers() { success in
-            if success {
-                self.loadPins()
-            }
-        }
+       // ParseClient.sharedInstance.refreshBeers() { success in
+        //    if success {
+        //        self.loadPins()
+       //     }
+      //  }
     }
-    
+       
     func loadPins() {
         // begin by removing old pins
         let pinList = beerMap.annotations

@@ -18,25 +18,34 @@ extension BreweryDbClient {
         static let ID = "id"
         static let Query = "q"
         static let BreweryToo = "withBreweries"
+        static let Page = "p"
+        static let Category = "type"
+        static let ABV = "abv"
     }
     struct Resources {
         static let BeerSearch = "beers/"
         static let Search = "search"
     }
     
+    struct Params {
+        static let Name = "name"
+        static let ABV = "abv"
+        static let ID = "id"
+        static let Descrip = "description"
+    }
 }
 
 extension ParseClient {
     
     struct Constants {
-        static let BaseParseRequest = "https://api.parse.com/1/classes/Beer"
+        static let BaseParseRequest = "https://api.parse.com/1/classes/"
         static let ParseRESTkey = "z0oWLRSXGxiGa6KdU64DV0lrWKa3SWrpeIvMkvJl"
         static let ParseAppID = "QqljByEk29sl0AlCog1B93iATtZnD53JUCSwKGcL"
     }
     struct Methods {
-        static let BeerObj = "Beer"
-        static let MsgObj = "Message"
-        static let UserObj = "_User"
+        static let BeerObj = "Beer/"
+        static let MsgObj = "Message/"
+        static let UserObj = "_User/"
     }
     // MARK: - Parameter Keys
     struct ParameterKeys {
