@@ -27,7 +27,12 @@ class BeerMapVC: UIViewController, MKMapViewDelegate {
        //     }
       //  }
     }
-       
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        let button = parentViewController?.navigationItem.rightBarButtonItem
+        button!.target = self
+        button?.action = "loadPins"
+    }
     func loadPins() {
         // begin by removing old pins
         let pinList = beerMap.annotations

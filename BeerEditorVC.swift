@@ -8,7 +8,7 @@
 
 import UIKit
 
-class BeerEditorVC: BeerLoginController, UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource, UIPickerViewDataSource, UIPickerViewDelegate {
+class BeerEditorVC: BeerLoginController, UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource, UIPickerViewDataSource, UIPickerViewDelegate, LocationDelegate {
     
     @IBOutlet weak var searcher: UISearchBar!
     @IBOutlet weak var searchTable: UITableView!
@@ -19,24 +19,54 @@ class BeerEditorVC: BeerLoginController, UISearchBarDelegate, UITableViewDelegat
     @IBOutlet weak var homebrewSwitch: UISwitch!
     @IBOutlet weak var currentBeerDisplay: UITextField!
     @IBOutlet weak var currentBeerBrewer: UITextField!
-    
     @IBOutlet weak var beerLocButton: UIButton!
     @IBOutlet weak var containerPicker: UIPickerView!
     @IBOutlet weak var swopButton: UIButton!
     @IBOutlet weak var watchlistButton: UIButton!
     @IBOutlet weak var beerNotes: UITextView!
     
+    let beernameFieldDefaultText = "Is this a homebrew?   ⌳"
+    let brewerFieldDefaultText = "--Brewed By--"
+    var isHomeBrew: Bool!
+    var drinkBy: Bool!
     var halfBeerResults = [HalfBeer]()
     var currentBeer: Beer?
     var searchTask: NSURLSessionDataTask?
+    var beerAt: CLLocationCoordinate2D?
     
-    let pickerArray = ["Bottles", "Cans", "Draft"]
+    let pickerArray = ["Bottles", "Cans", "Crowlers", "Draft"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
+        isHomeBrew = homebrewSwitch.on
+        drinkBy = beerDateSwitch.on
     }
+   
+    @IBAction func beerLocButtonTap(sender: UIButton) {
+        let nextVC = storyboard?.instantiateViewControllerWithIdentifier("BeerLocation") as! BeerLocatorVC
+        nextVC.locDelegate = self
+        presentViewController(nextVC, animated: true, completion: nil)
+    }
+    
+    @IBAction func swopButtonTap(sender: UIButton) {
+    }
+    
+    @IBAction func watchlistButtonTap(sender: UIButton) {
+    }
+    
+    @IBAction func beerDateSwitchToggled(sender: UISwitch) {
+        drinkBy = !drinkBy
+    }
+    @IBAction func homebrewSwitchToggled(sender: AnyObject) {
+        isHomeBrew = !isHomeBrew
+        currentBeerDisplay.enabled = isHomeBrew
+        currentBeerBrewer.enabled = isHomeBrew
+        currentBeerBrewer.hidden = !isHomeBrew
+        currentBeerBrewer.text = isHomeBrew! ? brewerFieldDefaultText : ""
+        currentBeerDisplay.text = isHomeBrew! ? "" : beernameFieldDefaultText
+    }
+    
     // MARK: - UITableView delegate methods:
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -89,18 +119,16 @@ class BeerEditorVC: BeerLoginController, UISearchBarDelegate, UITableViewDelegat
             } else {
                 print(error?.localizedDescription)
             }
-        
         }
-        
     }
     
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
         
     }
-    // superclass BeerLoginController has tapRecognizer Selector that dismisses keyboard, now add tableview dismissal
+    // dismiss searchBar results when not active
     override func handleTap() {
-        super.handleTap()
+        super.handleTap() // still want to dismiss keyboards
         searchTable.hidden = true
     }
     
@@ -119,7 +147,18 @@ class BeerEditorVC: BeerLoginController, UISearchBarDelegate, UITableViewDelegat
         return CGFloat(16)
     }
     func pickerView(pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat {
-        return CGFloat(90)
+        return CGFloat(110)
+    }
+    
+    // MARK: - LocationDelegate method:
+    
+    func setBeerLoc(site: CLLocationCoordinate2D?) {
+        beerAt = site
+        if site != nil {
+            beerLocButton.setTitle("Location is set", forState: .Normal)
+            // and disable button?
+        }
+        print(beerAt)
     }
 
 }

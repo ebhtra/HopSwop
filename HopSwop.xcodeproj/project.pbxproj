@@ -26,6 +26,7 @@
 		E41D6E3E1C5948EF005DE6AA /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E41D6E351C5948EF005DE6AA /* StoreKit.framework */; };
 		E41D6E3F1C5948EF005DE6AA /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E41D6E361C5948EF005DE6AA /* SystemConfiguration.framework */; };
 		E41D6E411C594901005DE6AA /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E41D6E401C594901005DE6AA /* CoreLocation.framework */; };
+		E423E51C1C6A68D500C342B3 /* BeerLocatorVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E423E51B1C6A68D500C342B3 /* BeerLocatorVC.swift */; };
 		E43F9F4A1C5A6C0B006CD370 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = E43F9F491C5A6C0B006CD370 /* CoreDataStack.swift */; };
 		E43F9F541C5B3C4E006CD370 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E43F9F521C5B3C4E006CD370 /* FBSDKCoreKit.framework */; };
 		E43F9F551C5B3C4E006CD370 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E43F9F531C5B3C4E006CD370 /* FBSDKLoginKit.framework */; };
@@ -72,6 +73,7 @@
 		E41D6E351C5948EF005DE6AA /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		E41D6E361C5948EF005DE6AA /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		E41D6E401C594901005DE6AA /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		E423E51B1C6A68D500C342B3 /* BeerLocatorVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeerLocatorVC.swift; sourceTree = "<group>"; };
 		E43F9F491C5A6C0B006CD370 /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		E43F9F4F1C5B3221006CD370 /* HopSwop-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "HopSwop-Bridging-Header.h"; sourceTree = "<group>"; };
 		E43F9F521C5B3C4E006CD370 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
@@ -126,6 +128,7 @@
 		E41D6E061C5943F7005DE6AA = {
 			isa = PBXGroup;
 			children = (
+				E423E51B1C6A68D500C342B3 /* BeerLocatorVC.swift */,
 				E4DE8F8A1C6677040098185E /* BeerEditorVC.swift */,
 				E4DE8F881C6539090098185E /* BeerCell.swift */,
 				E43F9F6A1C624EE7006CD370 /* BeerListVC.swift */,
@@ -285,6 +288,7 @@
 				E43F9F731C6354BF006CD370 /* ResetPWViewController.swift in Sources */,
 				E4DE8F871C64C9BB0098185E /* MyMessagesVC.swift in Sources */,
 				E43F9F611C613FE7006CD370 /* Constants.swift in Sources */,
+				E423E51C1C6A68D500C342B3 /* BeerLocatorVC.swift in Sources */,
 				E43F9F571C5BD836006CD370 /* ViewControllerExtensions.swift in Sources */,
 				E4DE8F891C6539090098185E /* BeerCell.swift in Sources */,
 				E43F9F6B1C624EE7006CD370 /* BeerListVC.swift in Sources */,

@@ -13,4 +13,15 @@ class MyMessagesVC: BeerLoginController {
         super.viewDidLoad()
         
     }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        let button = parentViewController?.navigationItem.rightBarButtonItem
+        button!.target = self
+        button?.action = "refreshMessages"
+    }
+    func refreshMessages() {
+        print("hola")
+    }
+
 }

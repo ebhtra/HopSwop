@@ -423,8 +423,9 @@
                             </tableView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Offering" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G25-qb-YvT">
                                 <rect key="frame" x="20" y="64" width="560" height="20"/>
+                                <color key="backgroundColor" red="0.45000000000000001" green="0.36387310610000001" blue="0.2028172348" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
-                                <color key="textColor" red="0.45000000000000001" green="0.36387310610000001" blue="0.2028172348" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
@@ -481,6 +482,9 @@
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="AP3-Dj-KsR">
                                 <rect key="frame" x="192" y="169" width="51" height="31"/>
                                 <color key="onTintColor" red="0.99957433090000003" green="0.91580224529999998" blue="0.6286849269" alpha="1" colorSpace="calibratedRGB"/>
+                                <connections>
+                                    <action selector="beerDateSwitchToggled:" destination="vce-cu-OM5" eventType="valueChanged" id="p0j-B1-gaH"/>
+                                </connections>
                             </switch>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Drink" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cTH-pR-B7Q">
                                 <rect key="frame" x="249" y="167" width="35" height="17"/>
@@ -524,7 +528,7 @@
                                     <outlet property="delegate" destination="vce-cu-OM5" id="QRb-8z-ZgQ"/>
                                 </connections>
                             </textField>
-                            <textField hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter homebrewer's name here" textAlignment="right" clearsOnBeginEditing="YES" minimumFontSize="12" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="ibP-Cw-eKQ">
+                            <textField hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter homebrewer's name here" textAlignment="center" clearsOnBeginEditing="YES" minimumFontSize="12" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="ibP-Cw-eKQ">
                                 <rect key="frame" x="122" y="124" width="240" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="240" id="5O4-EW-f6q"/>
@@ -537,7 +541,7 @@
                                     <outlet property="delegate" destination="vce-cu-OM5" id="5lk-Dh-bzz"/>
                                 </connections>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Is this a homebrew?   ⌳" placeholder="Enter your homebrew's name here" textAlignment="right" clearsOnBeginEditing="YES" minimumFontSize="12" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="6A0-xj-41v">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Is this a homebrew?   ⌳" placeholder="Enter your homebrew's name here" textAlignment="center" clearsOnBeginEditing="YES" minimumFontSize="12" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="6A0-xj-41v">
                                 <rect key="frame" x="122" y="94" width="240" height="30"/>
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" notEnabled="YES"/>
@@ -572,6 +576,9 @@
                                 <state key="normal" title="Add to Watchlist">
                                     <color key="titleColor" red="0.45000000000000001" green="0.36387310610000001" blue="0.2028172348" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="watchlistButtonTap:" destination="vce-cu-OM5" eventType="touchUpInside" id="9HZ-Pe-Eb3"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="A9A-m7-cyh">
                                 <rect key="frame" x="152" y="260" width="130" height="30"/>
@@ -581,6 +588,9 @@
                                 <state key="normal" title="Set Beer Location">
                                     <color key="titleColor" red="0.45000000000000001" green="0.36387310610000001" blue="0.2028172348" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="beerLocButtonTap:" destination="vce-cu-OM5" eventType="touchUpInside" id="cha-Re-dbO"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vPK-Gy-y12">
                                 <rect key="frame" x="320" y="258" width="130" height="30"/>
@@ -591,16 +601,25 @@
                                 <state key="normal" title="Swop this Beer!">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="swopButtonTap:" destination="vce-cu-OM5" eventType="touchUpInside" id="94C-A9-ad2"/>
+                                </connections>
                             </button>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Please enter some details, notes, thoughts, etc, about this beer.  We all love beer details!" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="bMt-ub-faW">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Please enter some details, notes, thoughts, etc, about this beer.  We all love beer details!" translatesAutoresizingMaskIntoConstraints="NO" id="bMt-ub-faW">
                                 <rect key="frame" x="20" y="304" width="560" height="296"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="no"/>
+                                <connections>
+                                    <outlet property="delegate" destination="vce-cu-OM5" id="Ary-dh-U4P"/>
+                                </connections>
                             </textView>
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="4Vr-dY-oX2">
                                 <rect key="frame" x="368" y="109" width="51" height="31"/>
                                 <color key="onTintColor" red="0.99957433090000003" green="0.91580224529999998" blue="0.6286849269" alpha="1" colorSpace="calibratedRGB"/>
+                                <connections>
+                                    <action selector="homebrewSwitchToggled:" destination="vce-cu-OM5" eventType="valueChanged" id="hjt-Uc-QJh"/>
+                                </connections>
                             </switch>
                             <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5Ee-Xy-aQq">
                                 <rect key="frame" x="152" y="200" width="130" height="60"/>
@@ -767,6 +786,97 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qUc-fo-PsH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2272" y="1427"/>
+        </scene>
+        <!--Beer Location-->
+        <scene sceneID="5Yj-wT-NMc">
+            <objects>
+                <viewController storyboardIdentifier="BeerLocation" title="Beer Location" id="VMx-5X-t4P" customClass="BeerLocatorVC" customModule="HopSwop" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Zm0-a7-mh6"/>
+                        <viewControllerLayoutGuide type="bottom" id="XID-c4-CZP"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="9gc-CQ-oC2">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="bTP-Gi-iI5">
+                                <rect key="frame" x="20" y="102" width="560" height="482"/>
+                                <connections>
+                                    <outlet property="delegate" destination="VMx-5X-t4P" id="xdT-nw-rHm"/>
+                                </connections>
+                            </mapView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DBX-MX-swk">
+                                <rect key="frame" x="200" y="20" width="200" height="30"/>
+                                <color key="backgroundColor" red="0.99957433090000003" green="0.91580224529999998" blue="0.6286849269" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="200" id="AQb-CW-MPX"/>
+                                    <constraint firstAttribute="height" constant="30" id="O9d-bK-Xtl"/>
+                                </constraints>
+                                <state key="normal" title="Use your current location?">
+                                    <color key="titleColor" red="0.45000000000000001" green="0.36387310610000001" blue="0.2028172348" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="setSave:" destination="VMx-5X-t4P" eventType="touchUpInside" id="MZW-Kw-Uww"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="OR" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ax8-z4-yNE">
+                                <rect key="frame" x="291" y="48" width="18" height="16"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <color key="textColor" red="0.45000000000000001" green="0.36387310610000001" blue="0.2028172348" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PvH-X6-lgg">
+                                <rect key="frame" x="535" y="20" width="45" height="29"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <state key="normal" title="Cancel">
+                                    <color key="titleColor" red="0.87671638259999995" green="0.03245738636" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="cancel:" destination="VMx-5X-t4P" eventType="touchUpInside" id="eHe-f0-N3U"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Touch map to add location pin.  Drag pin to adjust location.  " textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GHc-b7-fha">
+                                <rect key="frame" x="160" y="58" width="280" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="240" id="9gh-ys-qFD"/>
+                                    <constraint firstAttribute="width" constant="280" id="Vmk-Bx-Je2"/>
+                                    <constraint firstAttribute="height" constant="44" id="sL0-rU-wRT"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.45000000000000001" green="0.36387310610000001" blue="0.2028172348" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="9gh-ys-qFD"/>
+                                    </mask>
+                                </variation>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="GHc-b7-fha" firstAttribute="top" secondItem="DBX-MX-swk" secondAttribute="bottom" constant="8" id="0Kz-CS-sZd"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="bTP-Gi-iI5" secondAttribute="trailing" id="0Lk-AI-bdv"/>
+                            <constraint firstItem="DBX-MX-swk" firstAttribute="centerX" secondItem="9gc-CQ-oC2" secondAttribute="centerX" id="MSg-Yn-kUZ"/>
+                            <constraint firstItem="XID-c4-CZP" firstAttribute="top" secondItem="bTP-Gi-iI5" secondAttribute="bottom" constant="16" id="XGG-t2-PCQ"/>
+                            <constraint firstItem="DBX-MX-swk" firstAttribute="top" secondItem="Zm0-a7-mh6" secondAttribute="bottom" id="aVf-0y-XfZ"/>
+                            <constraint firstItem="PvH-X6-lgg" firstAttribute="trailing" secondItem="9gc-CQ-oC2" secondAttribute="trailingMargin" id="bWX-HC-gwI"/>
+                            <constraint firstItem="PvH-X6-lgg" firstAttribute="top" secondItem="Zm0-a7-mh6" secondAttribute="bottom" id="f8d-TT-CCG"/>
+                            <constraint firstItem="GHc-b7-fha" firstAttribute="centerX" secondItem="9gc-CQ-oC2" secondAttribute="centerX" id="fNk-0S-EJJ"/>
+                            <constraint firstItem="Ax8-z4-yNE" firstAttribute="top" secondItem="DBX-MX-swk" secondAttribute="bottom" constant="-2" id="fnU-Wh-UeH"/>
+                            <constraint firstItem="bTP-Gi-iI5" firstAttribute="leading" secondItem="9gc-CQ-oC2" secondAttribute="leadingMargin" id="l8i-rn-f9f"/>
+                            <constraint firstItem="GHc-b7-fha" firstAttribute="top" secondItem="Ax8-z4-yNE" secondAttribute="bottom" constant="-6" id="nSd-Nt-3YY"/>
+                            <constraint firstItem="Ax8-z4-yNE" firstAttribute="centerX" secondItem="9gc-CQ-oC2" secondAttribute="centerX" id="q0a-AX-lV4"/>
+                            <constraint firstItem="bTP-Gi-iI5" firstAttribute="top" secondItem="GHc-b7-fha" secondAttribute="bottom" id="sjd-pB-5aP"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="globalMap" destination="bTP-Gi-iI5" id="xgq-wd-iYq"/>
+                        <outlet property="setSaveButton" destination="DBX-MX-swk" id="W0P-La-oxX"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0xG-Va-eLN" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2779" y="1709"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="7q2-8H-txK">
