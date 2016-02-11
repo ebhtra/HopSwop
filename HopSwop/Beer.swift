@@ -15,7 +15,7 @@ class Beer: NSManagedObject, MKAnnotation {
     @NSManaged var createdAt: NSDate
     @NSManaged var notInDB: Bool
     @NSManaged var descrip: String
-    @NSManaged var objectId: Int
+    @NSManaged var objectId: String
     @NSManaged var latitude: Double
     @NSManaged var longitude: Double
     @NSManaged var updatedAt: NSDate
@@ -38,12 +38,12 @@ class Beer: NSManagedObject, MKAnnotation {
         createdAt = dict["createdAt"] as! NSDate
         latitude = dict["latitude"] as! Double
         longitude = dict["longitude"] as! Double
-        objectId = dict["objectId"] as! Int
+        objectId = dict["objectId"] as! String
         updatedAt = dict["updatedAt"] as! NSDate
         notInDB = dict["notInDB"] as! Bool
         descrip = dict["descrip"] as? String ?? ""
     }
-    
+    /*
     func setCoordinate(toPoint: CLLocationCoordinate2D) {
         //To comply with KVO in order to drag a pin before dropping it
         willChangeValueForKey("coordinate")
@@ -51,5 +51,5 @@ class Beer: NSManagedObject, MKAnnotation {
         longitude = toPoint.longitude
         didChangeValueForKey("coordinate")
     }
-   
+   */
 }

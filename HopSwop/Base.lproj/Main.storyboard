@@ -409,6 +409,10 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="q2P-Xe-70u">
                                 <rect key="frame" x="20" y="320" width="560" height="223"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="f9s-ll-NFr" id="KwY-SZ-f4K"/>
+                                    <outlet property="delegate" destination="f9s-ll-NFr" id="epP-Ww-020"/>
+                                </connections>
                             </tableView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Watchlist" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="spe-tT-GjM">
                                 <rect key="frame" x="20" y="300" width="560" height="20"/>
@@ -417,10 +421,6 @@
                                 <color key="textColor" red="0.45000000000000001" green="0.36387310610000001" blue="0.2028172348" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="1ML-ff-aMs">
-                                <rect key="frame" x="20" y="84" width="560" height="216"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </tableView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Offering" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G25-qb-YvT">
                                 <rect key="frame" x="20" y="64" width="560" height="20"/>
                                 <color key="backgroundColor" red="0.45000000000000001" green="0.36387310610000001" blue="0.2028172348" alpha="1" colorSpace="calibratedRGB"/>
@@ -428,6 +428,14 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="1ML-ff-aMs">
+                                <rect key="frame" x="20" y="84" width="560" height="216"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="f9s-ll-NFr" id="IgH-Bp-clw"/>
+                                    <outlet property="delegate" destination="f9s-ll-NFr" id="IRy-K0-aY6"/>
+                                </connections>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -450,6 +458,10 @@
                     <tabBarItem key="tabBarItem" title="My Beers" id="uJv-yl-M9a">
                         <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="-14"/>
                     </tabBarItem>
+                    <connections>
+                        <outlet property="swopTable" destination="1ML-ff-aMs" id="Bis-yj-URI"/>
+                        <outlet property="watchTable" destination="q2P-Xe-70u" id="QwJ-H7-j3D"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dpe-bB-rXc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -632,7 +644,7 @@
                                     <outlet property="delegate" destination="vce-cu-OM5" id="7ZW-j8-6nT"/>
                                 </connections>
                             </pickerView>
-                            <searchBar contentMode="redraw" searchBarStyle="prominent" placeholder="Enter beer name" translatesAutoresizingMaskIntoConstraints="NO" id="2gX-8q-WaN">
+                            <searchBar contentMode="redraw" searchBarStyle="prominent" placeholder="Search beer name" translatesAutoresizingMaskIntoConstraints="NO" id="2gX-8q-WaN">
                                 <rect key="frame" x="60" y="64" width="480" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="UQ8-99-uFA"/>
@@ -800,7 +812,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="bTP-Gi-iI5">
-                                <rect key="frame" x="20" y="102" width="560" height="482"/>
+                                <rect key="frame" x="20" y="118" width="560" height="466"/>
                                 <connections>
                                     <outlet property="delegate" destination="VMx-5X-t4P" id="xdT-nw-rHm"/>
                                 </connections>
@@ -866,11 +878,12 @@
                             <constraint firstItem="bTP-Gi-iI5" firstAttribute="leading" secondItem="9gc-CQ-oC2" secondAttribute="leadingMargin" id="l8i-rn-f9f"/>
                             <constraint firstItem="GHc-b7-fha" firstAttribute="top" secondItem="Ax8-z4-yNE" secondAttribute="bottom" constant="-6" id="nSd-Nt-3YY"/>
                             <constraint firstItem="Ax8-z4-yNE" firstAttribute="centerX" secondItem="9gc-CQ-oC2" secondAttribute="centerX" id="q0a-AX-lV4"/>
-                            <constraint firstItem="bTP-Gi-iI5" firstAttribute="top" secondItem="GHc-b7-fha" secondAttribute="bottom" id="sjd-pB-5aP"/>
+                            <constraint firstItem="bTP-Gi-iI5" firstAttribute="top" secondItem="GHc-b7-fha" secondAttribute="bottom" constant="16" id="sjd-pB-5aP"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="globalMap" destination="bTP-Gi-iI5" id="xgq-wd-iYq"/>
+                        <outlet property="orLabel" destination="Ax8-z4-yNE" id="Di7-MJ-YaT"/>
                         <outlet property="setSaveButton" destination="DBX-MX-swk" id="W0P-La-oxX"/>
                     </connections>
                 </viewController>

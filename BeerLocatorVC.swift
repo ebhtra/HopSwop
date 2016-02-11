@@ -14,28 +14,29 @@ protocol LocationDelegate {
     func setBeerLoc(toLoc: CLLocationCoordinate2D?)
 }
 
-class BeerLocatorVC: BeerLoginController, MKMapViewDelegate {
+class BeerLocatorVC: UIViewController, MKMapViewDelegate {
     
     @IBAction func cancel(sender: UIButton) {
         dismissViewControllerAnimated(true, completion: nil)
     }
     @IBOutlet weak var setSaveButton: UIButton!
     @IBOutlet weak var globalMap: MKMapView!
+    @IBOutlet weak var orLabel: UILabel!
     
     var newPin = MKPointAnnotation()
     var locDelegate: LocationDelegate!
-    var mapTap = UILongPressGestureRecognizer()
+    var mapTap = UITapGestureRecognizer()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        showBackgroundBeer()
         
         //set map to last region and zoom
         restoreMapRegion(true)
         
         mapTap.addTarget(self, action: Selector("placePin:"))
-        mapTap.minimumPressDuration = 0.1
-        view.addGestureRecognizer(mapTap)
+        //mapTap.minimumPressDuration = 0.1
+        globalMap.addGestureRecognizer(mapTap)
     }
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
@@ -59,6 +60,7 @@ class BeerLocatorVC: BeerLoginController, MKMapViewDelegate {
       
         globalMap.addAnnotation(newPin)
         setSaveButton.setTitle("Save this location", forState: .Normal)
+        orLabel.hidden = true
     }
     
    

@@ -8,10 +8,16 @@
 
 import UIKit
 
-class MyBeersVC: BeerLoginController,  UITableViewDelegate, UITableViewDataSource {
+class MyBeersVC: BeerLoginController,  UITableViewDelegate, UITableViewDataSource, WatchlistDelegate {
+    
+    @IBOutlet weak var swopTable: UITableView!
+    @IBOutlet weak var watchTable: UITableView!
     
     var listOfBeers = [String]()
     var listOfBrewers = [String]()
+    
+    var watchbeerlist = [HalfBeer]()
+    var swopbeerlist = [Beer]()
     
     override func viewDidLoad() {
         
@@ -48,18 +54,29 @@ class MyBeersVC: BeerLoginController,  UITableViewDelegate, UITableViewDataSourc
         parentViewController?.navigationItem.rightBarButtonItem?.title! = "Refresh"
     }
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return listOfBeers.count
+        if tableView == swopTable {
+            return swopbeerlist.count
+        } else {
+            return watchbeerlist.count
+        }
     }
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let beerCell = tableView.dequeueReusableCellWithIdentifier("beerCell") as! BeerCell
         //let beer = self.fetchedResultsController.objectAtIndexPath(indexPath) as! Beer
         //print("made it to here")
-        let beer = listOfBeers[indexPath.row]
-        let brewer = listOfBrewers[indexPath.row]
+        if tableView == watchTable {
+            let watchbeer = watchbeerlist[indexPath.row]
+            beerCell.beerName.text = watchbeer.name
+            beerCell.brewery.text = watchbeer.maker
+        } else {
+            let swopper = swopbeerlist[indexPath.row]
+            // add beername and brewer to Beer to be able to use here
+            // add detail callout with chevron on right of cells
+            // add editable/deletable with swipe
+            //  this type of cell may be same as for beerlistVC later
+        }
         
         
-        beerCell.beerName.text = beer
-        beerCell.brewery.text = brewer
         
         return beerCell
 
@@ -68,5 +85,13 @@ class MyBeersVC: BeerLoginController,  UITableViewDelegate, UITableViewDataSourc
         let beerEditor = storyboard!.instantiateViewControllerWithIdentifier("BeerEditor") as! BeerEditorVC
         //beerEditor.delegate = self
         navigationController?.pushViewController(beerEditor, animated: true)
+    }
+    func addToSwoplist(newBeer: Beer) {
+        swopbeerlist.append(newBeer)
+        swopTable.reloadData()
+    }
+    func addToWatchlist(newBeer: HalfBeer) {
+        watchbeerlist.append(newBeer)
+        watchTable.reloadData()
     }
 }

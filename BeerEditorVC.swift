@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol WatchlistDelegate {
+    func addToWatchlist(_: HalfBeer)
+}
+
 class BeerEditorVC: BeerLoginController, UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource, UIPickerViewDataSource, UIPickerViewDelegate, LocationDelegate {
     
     @IBOutlet weak var searcher: UISearchBar!
@@ -25,14 +29,17 @@ class BeerEditorVC: BeerLoginController, UISearchBarDelegate, UITableViewDelegat
     @IBOutlet weak var watchlistButton: UIButton!
     @IBOutlet weak var beerNotes: UITextView!
     
+    var currentBeer: Beer?
+    var addBeerDelegate: WatchlistDelegate!
+    
     let beernameFieldDefaultText = "Is this a homebrew?   ⌳"
     let brewerFieldDefaultText = "--Brewed By--"
     var isHomeBrew: Bool!
     var drinkBy: Bool!
     var halfBeerResults = [HalfBeer]()
-    var currentBeer: Beer?
     var searchTask: NSURLSessionDataTask?
     var beerAt: CLLocationCoordinate2D?
+    var vessel: String!
     
     let pickerArray = ["Bottles", "Cans", "Crowlers", "Draft"]
     
@@ -53,6 +60,7 @@ class BeerEditorVC: BeerLoginController, UISearchBarDelegate, UITableViewDelegat
     }
     
     @IBAction func watchlistButtonTap(sender: UIButton) {
+        
     }
     
     @IBAction func beerDateSwitchToggled(sender: UISwitch) {
@@ -65,6 +73,7 @@ class BeerEditorVC: BeerLoginController, UISearchBarDelegate, UITableViewDelegat
         currentBeerBrewer.hidden = !isHomeBrew
         currentBeerBrewer.text = isHomeBrew! ? brewerFieldDefaultText : ""
         currentBeerDisplay.text = isHomeBrew! ? "" : beernameFieldDefaultText
+        searcher.hidden = isHomeBrew
     }
     
     // MARK: - UITableView delegate methods:
@@ -155,10 +164,8 @@ class BeerEditorVC: BeerLoginController, UISearchBarDelegate, UITableViewDelegat
     func setBeerLoc(site: CLLocationCoordinate2D?) {
         beerAt = site
         if site != nil {
-            beerLocButton.setTitle("Location is set", forState: .Normal)
-            // and disable button?
+            beerLocButton.setTitle("Change beer location", forState: .Normal)
         }
-        print(beerAt)
     }
 
 }
