@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class MyBeersVC: BeerLoginController, NSFetchedResultsControllerDelegate, UITableViewDelegate, UITableViewDataSource, WatchlistDelegate {
+class MyBeersVC: UIViewController, NSFetchedResultsControllerDelegate, UITableViewDelegate, UITableViewDataSource, WatchlistDelegate {
     
     @IBOutlet weak var swopTable: UITableView!
     @IBOutlet weak var watchTable: UITableView!
@@ -22,6 +22,7 @@ class MyBeersVC: BeerLoginController, NSFetchedResultsControllerDelegate, UITabl
     
     override func viewDidLoad() {
         
+        showBackgroundBeer()
         /*
         var newBeer = [String: AnyObject]()
         newBeer["notInDB"] = false
@@ -85,6 +86,14 @@ class MyBeersVC: BeerLoginController, NSFetchedResultsControllerDelegate, UITabl
         return beerCell!
 
     }
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        if tableView == watchTable {
+            let watchbeer = watchbeerlist[indexPath.row]
+            let detesVC = storyboard?.instantiateViewControllerWithIdentifier("beerDetail") as! BeerDetailVC
+            detesVC.beer = watchbeer
+            navigationController?.pushViewController(detesVC, animated: true)
+        }
+    }
     func showEditor() {
         let beerEditor = storyboard!.instantiateViewControllerWithIdentifier("BeerEditor") as! BeerEditorVC
         beerEditor.addBeerDelegate = self
@@ -96,6 +105,7 @@ class MyBeersVC: BeerLoginController, NSFetchedResultsControllerDelegate, UITabl
     }
     func addToWatchlist(newBeer: HalfBeer) {
         watchbeerlist.append(newBeer)
+
         watchTable.reloadData()
     }
 }

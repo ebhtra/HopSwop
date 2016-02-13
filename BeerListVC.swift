@@ -58,7 +58,7 @@ class BeerListVC: UIViewController, NSFetchedResultsControllerDelegate, UITableV
     
     func tableView(tableView: UITableView,
         cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-            let ReuseIdentifier = "BeerCell"
+            let ReuseIdentifier = "beerCell"
             
             let beer = fetchedResultsController.objectAtIndexPath(indexPath) as! Beer
             

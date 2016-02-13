@@ -350,7 +350,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Eto-eA-r9V" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3222" y="97"/>
+            <point key="canvasLocation" x="3246" y="319"/>
         </scene>
         <!--BeerList-->
         <scene sceneID="JUN-O3-v1b">
@@ -386,7 +386,42 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tWE-CA-2a0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3252" y="588"/>
+            <point key="canvasLocation" x="3258" y="-362"/>
+        </scene>
+        <!--Beer DetailVC-->
+        <scene sceneID="boT-rT-NzZ">
+            <objects>
+                <viewController storyboardIdentifier="beerDetail" id="hED-6g-PhU" customClass="BeerDetailVC" customModule="HopSwop" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="ofI-Fy-kDN"/>
+                        <viewControllerLayoutGuide type="bottom" id="w6G-fG-6KU"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Gkk-yd-e1A">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Jx4-ex-L8T">
+                                <rect key="frame" x="36" y="50" width="528" height="490"/>
+                                <color key="textColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="Jx4-ex-L8T" firstAttribute="leading" secondItem="Gkk-yd-e1A" secondAttribute="leadingMargin" constant="16" id="2Ml-FL-9es"/>
+                            <constraint firstItem="Jx4-ex-L8T" firstAttribute="top" secondItem="ofI-Fy-kDN" secondAttribute="bottom" constant="30" id="2hU-Ri-aBo"/>
+                            <constraint firstItem="Jx4-ex-L8T" firstAttribute="centerX" secondItem="Gkk-yd-e1A" secondAttribute="centerX" id="Jfs-fk-Cbb"/>
+                            <constraint firstItem="w6G-fG-6KU" firstAttribute="top" secondItem="Jx4-ex-L8T" secondAttribute="bottom" constant="60" id="Mwk-Ti-NMm"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Jx4-ex-L8T" secondAttribute="trailing" constant="16" id="wcn-Pm-fwD"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="detes" destination="Jx4-ex-L8T" id="R9j-26-aQb"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="HNY-uP-ny3" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3458" y="1026"/>
         </scene>
         <!--Message Board-->
         <scene sceneID="FYV-3o-D1i">
@@ -407,7 +442,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4uU-Sh-63Y" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2208" y="788"/>
+            <point key="canvasLocation" x="2098" y="812"/>
         </scene>
         <!--MyBeer-->
         <scene sceneID="ZUx-Na-nMR">
@@ -508,10 +543,10 @@
             </objects>
             <point key="canvasLocation" x="2831" y="983"/>
         </scene>
-        <!--Beer Editor-->
+        <!--Beer EditorVC-->
         <scene sceneID="rPL-em-bl7">
             <objects>
-                <viewController storyboardIdentifier="BeerEditor" title="Beer Editor" id="vce-cu-OM5" customClass="BeerEditorVC" customModule="HopSwop" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="BeerEditor" id="vce-cu-OM5" customClass="BeerEditorVC" customModule="HopSwop" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="LjP-Ej-vJB"/>
                         <viewControllerLayoutGuide type="bottom" id="zmr-VS-Ww8"/>
@@ -838,7 +873,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qUc-fo-PsH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2272" y="1427"/>
+            <point key="canvasLocation" x="2303" y="1667"/>
         </scene>
         <!--Beer Location-->
         <scene sceneID="5Yj-wT-NMc">
@@ -930,7 +965,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0xG-Va-eLN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2779" y="1709"/>
+            <point key="canvasLocation" x="2917" y="1687"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="7q2-8H-txK">

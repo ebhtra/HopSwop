@@ -45,6 +45,7 @@
 		E43F9F711C626376006CD370 /* ParseConvenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = E43F9F701C626376006CD370 /* ParseConvenience.swift */; };
 		E43F9F731C6354BF006CD370 /* ResetPWViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E43F9F721C6354BE006CD370 /* ResetPWViewController.swift */; };
 		E43F9F751C6356FC006CD370 /* BeerLoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E43F9F741C6356FC006CD370 /* BeerLoginController.swift */; };
+		E4C954AB1C6EFFE4005C71F2 /* BeerDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4C954AA1C6EFFE3005C71F2 /* BeerDetailVC.swift */; };
 		E4DE8F871C64C9BB0098185E /* MyMessagesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DE8F861C64C9BB0098185E /* MyMessagesVC.swift */; };
 		E4DE8F891C6539090098185E /* BeerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DE8F881C6539090098185E /* BeerCell.swift */; };
 		E4DE8F8B1C6677040098185E /* BeerEditorVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DE8F8A1C6677040098185E /* BeerEditorVC.swift */; };
@@ -94,6 +95,7 @@
 		E43F9F701C626376006CD370 /* ParseConvenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseConvenience.swift; sourceTree = "<group>"; };
 		E43F9F721C6354BE006CD370 /* ResetPWViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ResetPWViewController.swift; path = HopSwop/ResetPWViewController.swift; sourceTree = "<group>"; };
 		E43F9F741C6356FC006CD370 /* BeerLoginController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BeerLoginController.swift; path = HopSwop/BeerLoginController.swift; sourceTree = "<group>"; };
+		E4C954AA1C6EFFE3005C71F2 /* BeerDetailVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeerDetailVC.swift; sourceTree = "<group>"; };
 		E4DE8F861C64C9BB0098185E /* MyMessagesVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MyMessagesVC.swift; path = HopSwop/MyMessagesVC.swift; sourceTree = "<group>"; };
 		E4DE8F881C6539090098185E /* BeerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeerCell.swift; sourceTree = "<group>"; };
 		E4DE8F8A1C6677040098185E /* BeerEditorVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeerEditorVC.swift; sourceTree = "<group>"; };
@@ -130,6 +132,7 @@
 		E41D6E061C5943F7005DE6AA = {
 			isa = PBXGroup;
 			children = (
+				E4C954AA1C6EFFE3005C71F2 /* BeerDetailVC.swift */,
 				E423E51B1C6A68D500C342B3 /* BeerLocatorVC.swift */,
 				E4DE8F8A1C6677040098185E /* BeerEditorVC.swift */,
 				E4DE8F881C6539090098185E /* BeerCell.swift */,
@@ -275,6 +278,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E43F9F591C5BF50A006CD370 /* SignupViewController.swift in Sources */,
+				E4C954AB1C6EFFE4005C71F2 /* BeerDetailVC.swift in Sources */,
 				E43F9F631C614034006CD370 /* BreweryDbClient.swift in Sources */,
 				E4DE8F8D1C6759840098185E /* HalfBeer.swift in Sources */,
 				E423E51E1C6CE66E00C342B3 /* User.swift in Sources */,
