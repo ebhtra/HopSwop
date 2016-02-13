@@ -19,7 +19,15 @@ class SignupViewController: BeerLoginController {
     override func viewDidLoad() {
         super.viewDidLoad()
     }
-    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        subscribeToKeyboardNotifications()
+    }
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        unsubscribeFromKeyboardNotifications()
+    }
+
     @IBAction func signUpPressed(sender: AnyObject) {
         let user = PFUser()
         user.username = usernameField.text

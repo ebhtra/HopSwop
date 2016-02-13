@@ -9,8 +9,9 @@
 import UIKit
 import MapKit
 import CoreLocation
+import CoreData
 
-class BeerMapVC: UIViewController, MKMapViewDelegate {
+class BeerMapVC: UIViewController, NSFetchedResultsControllerDelegate, MKMapViewDelegate {
     
     var annotations = [MKPointAnnotation]()
     
@@ -33,6 +34,25 @@ class BeerMapVC: UIViewController, MKMapViewDelegate {
         button!.target = self
         button?.action = "loadPins"
     }
+    var sharedContext: NSManagedObjectContext {
+        return CoreDataStackManager.sharedInstance().managedObjectContext
+    }
+    
+    lazy var fetchedResultsController: NSFetchedResultsController = {
+        
+        let fetchRequest = NSFetchRequest(entityName: "Beer")
+        
+        fetchRequest.sortDescriptors = []
+        
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
+            managedObjectContext: self.sharedContext,
+            sectionNameKeyPath: nil,
+            cacheName: nil)
+        
+        return fetchedResultsController
+        
+    }()
+
     func loadPins() {
         // begin by removing old pins
         let pinList = beerMap.annotations
@@ -58,5 +78,6 @@ class BeerMapVC: UIViewController, MKMapViewDelegate {
         // When the array is complete,  add the annotations to the map.
         beerMap.addAnnotations(annotations)
     }
+    
 
 }

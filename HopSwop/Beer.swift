@@ -12,13 +12,21 @@ import MapKit
 
 class Beer: NSManagedObject, MKAnnotation {
     
-    @NSManaged var createdAt: NSDate
+   
     @NSManaged var notInDB: Bool
     @NSManaged var descrip: String
     @NSManaged var objectId: String
     @NSManaged var latitude: Double
     @NSManaged var longitude: Double
-    @NSManaged var updatedAt: NSDate
+    @NSManaged var beerName: String
+    @NSManaged var brewer: String
+    @NSManaged var owner: User?
+    @NSManaged var watcher: User?
+    @NSManaged var vessel: String
+    @NSManaged var bornOn: Bool
+    @NSManaged var drinkDate: NSDate
+    @NSManaged var justWatching: Bool
+    
     
     // MKMapView will not add MKAnnotations from fetched CoreData Pins without a coordinate getter:
     var coordinate: CLLocationCoordinate2D {
@@ -35,13 +43,21 @@ class Beer: NSManagedObject, MKAnnotation {
         let entity = NSEntityDescription.entityForName("Beer", inManagedObjectContext: context)
         super.init(entity: entity!, insertIntoManagedObjectContext: context)
         
-        createdAt = dict["createdAt"] as! NSDate
+        
         latitude = dict["latitude"] as! Double
         longitude = dict["longitude"] as! Double
         objectId = dict["objectId"] as! String
-        updatedAt = dict["updatedAt"] as! NSDate
         notInDB = dict["notInDB"] as! Bool
-        descrip = dict["descrip"] as? String ?? ""
+        descrip = dict["descrip"] as! String
+        beerName = dict["beerName"] as! String
+        brewer = dict["brewer"] as! String
+        owner = dict["owner"] as? User
+        watcher = dict["watcher"] as? User
+        vessel = dict["vessel"] as! String
+        bornOn = dict["bornOn"] as! Bool
+        drinkDate = dict["drinkDate"] as! NSDate
+        justWatching = dict["justWatching"] as! Bool
+        
     }
     /*
     func setCoordinate(toPoint: CLLocationCoordinate2D) {

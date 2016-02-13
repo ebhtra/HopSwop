@@ -17,7 +17,15 @@ class ResetPWViewController: BeerLoginController {
         
         emailField.becomeFirstResponder()
     }
-    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        subscribeToKeyboardNotifications()
+    }
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        unsubscribeFromKeyboardNotifications()
+    }
+
     @IBAction func sendEmail(sender: UIButton) {
         if emailField.text == nil || emailField.text!.isEmpty {
             displayGenericAlert("Please enter your email.", message: "")

@@ -36,5 +36,44 @@ extension UIViewController {
         self.view.layer.insertSublayer(backgroundGradient, atIndex: 0)
     }
     
+    func subscribeToKeyboardNotifications() {
+        // register the VC to respond to keyboard visibility change notifications
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
+    }
+    func unsubscribeFromKeyboardNotifications() {
+        // de-register the VC to respond to keyboard visibility change notifications
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillHideNotification, object: nil)
+    }
+    func keyboardWillShow(notification: NSNotification) {
+        // if bottom of field being edited is lower than top of keyboard,
+        //    raise the view by the height of keyboard during editing.
+        let hKeys = getKeyboardHeight(notification)
+        var yUp = CGFloat(0)
+        for v in view.subviews {  // find which field is editing
+            if v.isFirstResponder() {
+                yUp = view.frame.height - v.frame.maxY
+            }
+        }
+        if yUp < hKeys {
+            view.frame.origin.y -= hKeys
+        }
+        
+    }
+    func keyboardWillHide(notification: NSNotification) {
+       
+            view.frame.origin.y = 0
+    }
+    func getKeyboardHeight(notification: NSNotification) -> CGFloat {
+        // get the userInfo dictionary from the notification
+        let userInfo = notification.userInfo
+        
+        // get the keyboard CGRect from the userInfo dictionary
+        let keyboardSize = userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue
+        
+        return keyboardSize.CGRectValue().height
+    }
+
     
 }

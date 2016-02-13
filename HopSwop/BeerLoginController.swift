@@ -17,6 +17,7 @@ class BeerLoginController: UIViewController, UITextFieldDelegate {
         showBackgroundBeer()
         // Set up the tap recognizer
         tapRecognizer = UITapGestureRecognizer(target: self, action: "handleTap")
+        
     }
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
@@ -30,7 +31,7 @@ class BeerLoginController: UIViewController, UITextFieldDelegate {
     func handleTap() {
         view.endEditing(true)
     }
-    // Remove the keyboard by hitting RETURN key (method called by delegate: self)
+    // Remove the keyboard by hitting RETURN key (method called by textFieldDelegate: self)
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         view.endEditing(true)
         return true

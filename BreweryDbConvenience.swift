@@ -31,7 +31,7 @@ extension BreweryDbClient {
                         let name = beer["name"] as! String
                         var maker = ""
                         let id = beer["id"] as! String
-                        
+                        let notes = beer["description"] as? String ?? ""
                         // TODO -- add multiple brewers to one beer display
                         
                         if let brewers = beer["breweries"] as? [[String : AnyObject]] {
@@ -40,7 +40,7 @@ extension BreweryDbClient {
                             //self.listOfImageUrls.append((brewers[0]["images"]!["icon"] as? String)!)
                             
                         }
-                        beerlist.append(HalfBeer(name: name, maker: maker, id: id))
+                        beerlist.append(HalfBeer(name: name, maker: maker, id: id, notes: notes))
                         //let _ = Beer(beerName: name, context: self.sharedContext)
                         //print(beer)
                     }

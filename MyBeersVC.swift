@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import CoreData
 
-class MyBeersVC: BeerLoginController,  UITableViewDelegate, UITableViewDataSource, WatchlistDelegate {
+class MyBeersVC: BeerLoginController, NSFetchedResultsControllerDelegate, UITableViewDelegate, UITableViewDataSource, WatchlistDelegate {
     
     @IBOutlet weak var swopTable: UITableView!
     @IBOutlet weak var watchTable: UITableView!
@@ -61,29 +62,32 @@ class MyBeersVC: BeerLoginController,  UITableViewDelegate, UITableViewDataSourc
         }
     }
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let beerCell = tableView.dequeueReusableCellWithIdentifier("beerCell") as! BeerCell
+        let beerCell = tableView.dequeueReusableCellWithIdentifier("basicCell")
         //let beer = self.fetchedResultsController.objectAtIndexPath(indexPath) as! Beer
         //print("made it to here")
         if tableView == watchTable {
             let watchbeer = watchbeerlist[indexPath.row]
-            beerCell.beerName.text = watchbeer.name
-            beerCell.brewery.text = watchbeer.maker
+            beerCell?.textLabel?.text = watchbeer.name
+            beerCell?.detailTextLabel?.text = watchbeer.maker
+            let notes = UITextView()
+            notes.text = watchbeer.notes
+            beerCell?.accessoryView = notes
         } else {
-            let swopper = swopbeerlist[indexPath.row]
+            if tableView == swopTable {
+                let swopper = swopbeerlist[indexPath.row]
             // add beername and brewer to Beer to be able to use here
             // add detail callout with chevron on right of cells
             // add editable/deletable with swipe
             //  this type of cell may be same as for beerlistVC later
+            }
         }
         
-        
-        
-        return beerCell
+        return beerCell!
 
     }
     func showEditor() {
         let beerEditor = storyboard!.instantiateViewControllerWithIdentifier("BeerEditor") as! BeerEditorVC
-        //beerEditor.delegate = self
+        beerEditor.addBeerDelegate = self
         navigationController?.pushViewController(beerEditor, animated: true)
     }
     func addToSwoplist(newBeer: Beer) {

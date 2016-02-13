@@ -31,6 +31,14 @@ class LoginViewController: BeerLoginController, FBSDKLoginButtonDelegate {
             }
         }
     }
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        subscribeToKeyboardNotifications()
+    }
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        unsubscribeFromKeyboardNotifications()
+    }
     // Since this VC isn't in the same UINavigation stack as the rest of the app
     @IBAction func unwindToLogin(segue: UIStoryboardSegue) {
         // log out of Parse

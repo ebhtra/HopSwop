@@ -27,6 +27,7 @@
 		E41D6E3F1C5948EF005DE6AA /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E41D6E361C5948EF005DE6AA /* SystemConfiguration.framework */; };
 		E41D6E411C594901005DE6AA /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E41D6E401C594901005DE6AA /* CoreLocation.framework */; };
 		E423E51C1C6A68D500C342B3 /* BeerLocatorVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E423E51B1C6A68D500C342B3 /* BeerLocatorVC.swift */; };
+		E423E51E1C6CE66E00C342B3 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = E423E51D1C6CE66E00C342B3 /* User.swift */; };
 		E43F9F4A1C5A6C0B006CD370 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = E43F9F491C5A6C0B006CD370 /* CoreDataStack.swift */; };
 		E43F9F541C5B3C4E006CD370 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E43F9F521C5B3C4E006CD370 /* FBSDKCoreKit.framework */; };
 		E43F9F551C5B3C4E006CD370 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E43F9F531C5B3C4E006CD370 /* FBSDKLoginKit.framework */; };
@@ -74,6 +75,7 @@
 		E41D6E361C5948EF005DE6AA /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		E41D6E401C594901005DE6AA /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		E423E51B1C6A68D500C342B3 /* BeerLocatorVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeerLocatorVC.swift; sourceTree = "<group>"; };
+		E423E51D1C6CE66E00C342B3 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		E43F9F491C5A6C0B006CD370 /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		E43F9F4F1C5B3221006CD370 /* HopSwop-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "HopSwop-Bridging-Header.h"; sourceTree = "<group>"; };
 		E43F9F521C5B3C4E006CD370 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
@@ -168,6 +170,7 @@
 				E43F9F5E1C613E11006CD370 /* ParseClient.swift */,
 				E43F9F6E1C625A85006CD370 /* BeerList.swift */,
 				E43F9F5A1C612C48006CD370 /* Beer.swift */,
+				E423E51D1C6CE66E00C342B3 /* User.swift */,
 				E4DE8F8C1C6759840098185E /* HalfBeer.swift */,
 				E43F9F5C1C6135D8006CD370 /* Message.swift */,
 				E41D6E191C5943F7005DE6AA /* HopSwop.xcdatamodeld */,
@@ -274,6 +277,7 @@
 				E43F9F591C5BF50A006CD370 /* SignupViewController.swift in Sources */,
 				E43F9F631C614034006CD370 /* BreweryDbClient.swift in Sources */,
 				E4DE8F8D1C6759840098185E /* HalfBeer.swift in Sources */,
+				E423E51E1C6CE66E00C342B3 /* User.swift in Sources */,
 				E43F9F6F1C625A85006CD370 /* BeerList.swift in Sources */,
 				E43F9F671C621E67006CD370 /* MyBeersVC.swift in Sources */,
 				E43F9F6D1C624F1C006CD370 /* BeerMapVC.swift in Sources */,

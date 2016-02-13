@@ -12,7 +12,7 @@ protocol WatchlistDelegate {
     func addToWatchlist(_: HalfBeer)
 }
 
-class BeerEditorVC: BeerLoginController, UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource, UIPickerViewDataSource, UIPickerViewDelegate, LocationDelegate {
+class BeerEditorVC: BeerLoginController, UITableViewDelegate, UITableViewDataSource, UIPickerViewDataSource, UIPickerViewDelegate, LocationDelegate, UISearchBarDelegate {
     
     @IBOutlet weak var searcher: UISearchBar!
     @IBOutlet weak var searchTable: UITableView!
@@ -30,10 +30,10 @@ class BeerEditorVC: BeerLoginController, UISearchBarDelegate, UITableViewDelegat
     @IBOutlet weak var beerNotes: UITextView!
     
     var currentBeer: Beer?
+    var currentHalfBeer: HalfBeer?
+    
     var addBeerDelegate: WatchlistDelegate!
     
-    let beernameFieldDefaultText = "Is this a homebrew?   ⌳"
-    let brewerFieldDefaultText = "--Brewed By--"
     var isHomeBrew: Bool!
     var drinkBy: Bool!
     var halfBeerResults = [HalfBeer]()
@@ -46,10 +46,22 @@ class BeerEditorVC: BeerLoginController, UISearchBarDelegate, UITableViewDelegat
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        showBackgroundBeer()
         isHomeBrew = homebrewSwitch.on
         drinkBy = beerDateSwitch.on
+        
+        tapRecognizer!.cancelsTouchesInView = false
+        
     }
-   
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        subscribeToKeyboardNotifications()
+    }
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        unsubscribeFromKeyboardNotifications()
+    }
+
     @IBAction func beerLocButtonTap(sender: UIButton) {
         let nextVC = storyboard?.instantiateViewControllerWithIdentifier("BeerLocation") as! BeerLocatorVC
         nextVC.locDelegate = self
@@ -60,6 +72,12 @@ class BeerEditorVC: BeerLoginController, UISearchBarDelegate, UITableViewDelegat
     }
     
     @IBAction func watchlistButtonTap(sender: UIButton) {
+        if let watcher = currentHalfBeer {
+            print("about to add \(watcher) to watchlist")
+            addBeerDelegate.addToWatchlist(watcher)
+        } else {
+            displayGenericAlert("", message: "Please add a beer to watch.")
+        }
         
     }
     
@@ -71,8 +89,9 @@ class BeerEditorVC: BeerLoginController, UISearchBarDelegate, UITableViewDelegat
         currentBeerDisplay.enabled = isHomeBrew
         currentBeerBrewer.enabled = isHomeBrew
         currentBeerBrewer.hidden = !isHomeBrew
-        currentBeerBrewer.text = isHomeBrew! ? brewerFieldDefaultText : ""
-        currentBeerDisplay.text = isHomeBrew! ? "" : beernameFieldDefaultText
+        currentBeerDisplay.hidden = !isHomeBrew
+        currentBeerBrewer.text = ""
+        currentBeerDisplay.text = ""
         searcher.hidden = isHomeBrew
     }
     
@@ -92,6 +111,18 @@ class BeerEditorVC: BeerLoginController, UISearchBarDelegate, UITableViewDelegat
         beerCell.brewery.text = halfBeer.maker
         
         return beerCell
+    }
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+       
+        currentHalfBeer = halfBeerResults[indexPath.row]
+        currentBeerDisplay.text = currentHalfBeer!.name
+        currentBeerBrewer.text = currentHalfBeer!.maker
+        currentBeerBrewer.hidden = false
+        currentBeerDisplay.hidden = false
+        
+        print(currentHalfBeer)
+        tableView.hidden = true
+        
     }
     
     // MARK: - Search Bar Delegate methods:
@@ -134,11 +165,6 @@ class BeerEditorVC: BeerLoginController, UISearchBarDelegate, UITableViewDelegat
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
         
-    }
-    // dismiss searchBar results when not active
-    override func handleTap() {
-        super.handleTap() // still want to dismiss keyboards
-        searchTable.hidden = true
     }
     
     // MARK: - UIPickerView delegate methods:
