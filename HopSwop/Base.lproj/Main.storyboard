@@ -582,36 +582,36 @@
                                 </connections>
                             </textField>
                             <textField hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter homebrewer's name here" textAlignment="center" clearsOnBeginEditing="YES" minimumFontSize="12" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="ibP-Cw-eKQ">
-                                <rect key="frame" x="122" y="108" width="240" height="30"/>
+                                <rect key="frame" x="122" y="118" width="240" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="240" id="5O4-EW-f6q"/>
-                                    <constraint firstAttribute="height" constant="30" id="5jz-Fj-8yO"/>
+                                    <constraint firstAttribute="height" constant="20" id="5jz-Fj-8yO"/>
                                 </constraints>
                                 <color key="textColor" red="0.45000000000000001" green="0.36387310610000001" blue="0.2028172348" alpha="1" colorSpace="calibratedRGB"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
                                 <connections>
                                     <outlet property="delegate" destination="vce-cu-OM5" id="5lk-Dh-bzz"/>
                                 </connections>
                             </textField>
                             <textField hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter your homebrew's name here" textAlignment="center" clearsOnBeginEditing="YES" minimumFontSize="12" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="6A0-xj-41v">
-                                <rect key="frame" x="122" y="78" width="240" height="30"/>
+                                <rect key="frame" x="122" y="94" width="240" height="24"/>
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" notEnabled="YES"/>
                                 </accessibility>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="240" id="o4U-Bi-0Dp"/>
-                                    <constraint firstAttribute="height" constant="30" id="sv8-7V-ynU"/>
+                                    <constraint firstAttribute="height" constant="24" id="sv8-7V-ynU"/>
                                 </constraints>
                                 <color key="textColor" red="0.45000000000000001" green="0.36387310610000001" blue="0.2028172348" alpha="1" colorSpace="calibratedRGB"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
                                 <connections>
                                     <outlet property="delegate" destination="vce-cu-OM5" id="zR5-86-bnk"/>
                                 </connections>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Home Brew" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bKb-EN-DEt">
-                                <rect key="frame" x="423" y="107" width="42" height="36"/>
+                                <rect key="frame" x="423" y="109" width="42" height="36"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="36" id="NWc-1t-zFJ"/>
                                     <constraint firstAttribute="width" constant="42" id="aBO-YU-htj"/>
@@ -668,7 +668,7 @@
                                 </connections>
                             </textView>
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="4Vr-dY-oX2">
-                                <rect key="frame" x="368" y="109" width="51" height="31"/>
+                                <rect key="frame" x="368" y="111" width="51" height="31"/>
                                 <color key="onTintColor" red="0.99957433090000003" green="0.91580224529999998" blue="0.6286849269" alpha="1" colorSpace="calibratedRGB"/>
                                 <connections>
                                     <action selector="homebrewSwitchToggled:" destination="vce-cu-OM5" eventType="valueChanged" id="hjt-Uc-QJh"/>
@@ -744,9 +744,9 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="2gX-8q-WaN" firstAttribute="width" secondItem="fOH-Wf-ggr" secondAttribute="width" id="0sO-Jj-ntA"/>
-                            <constraint firstItem="4Vr-dY-oX2" firstAttribute="centerY" secondItem="6A0-xj-41v" secondAttribute="bottom" constant="16" id="1RR-TV-Lzg"/>
+                            <constraint firstItem="4Vr-dY-oX2" firstAttribute="centerY" secondItem="6A0-xj-41v" secondAttribute="bottom" constant="8" id="1RR-TV-Lzg"/>
                             <constraint firstItem="zmr-VS-Ww8" firstAttribute="top" secondItem="5Ee-Xy-aQq" secondAttribute="bottom" constant="8" symbolic="YES" id="26c-ez-QPn"/>
-                            <constraint firstItem="6A0-xj-41v" firstAttribute="top" secondItem="2gX-8q-WaN" secondAttribute="bottom" constant="-16" id="2pb-Hj-IlF"/>
+                            <constraint firstItem="6A0-xj-41v" firstAttribute="top" secondItem="2gX-8q-WaN" secondAttribute="bottom" id="2pb-Hj-IlF"/>
                             <constraint firstItem="5Ee-Xy-aQq" firstAttribute="leading" secondItem="bMt-ub-faW" secondAttribute="trailing" constant="8" id="4v1-Pi-8Jx"/>
                             <constraint firstItem="ibP-Cw-eKQ" firstAttribute="centerX" secondItem="uPh-nY-4dv" secondAttribute="centerX" constant="-58" id="5Hn-na-r4y"/>
                             <constraint firstItem="1Td-ki-JD6" firstAttribute="width" secondItem="DrD-t1-tk5" secondAttribute="width" id="5Qr-C4-Lby"/>

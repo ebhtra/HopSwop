@@ -159,7 +159,6 @@
 		E41D6E111C5943F7005DE6AA /* HopSwop */ = {
 			isa = PBXGroup;
 			children = (
-				E41D6E1E1C5943F7005DE6AA /* LaunchScreen.storyboard */,
 				E41D6E161C5943F7005DE6AA /* Main.storyboard */,
 				E41D6E121C5943F7005DE6AA /* AppDelegate.swift */,
 				E43F9F491C5A6C0B006CD370 /* CoreDataStack.swift */,
@@ -175,6 +174,7 @@
 				E43F9F5C1C6135D8006CD370 /* Message.swift */,
 				E41D6E191C5943F7005DE6AA /* HopSwop.xcdatamodeld */,
 				E43F9F4F1C5B3221006CD370 /* HopSwop-Bridging-Header.h */,
+				E41D6E1E1C5943F7005DE6AA /* LaunchScreen.storyboard */,
 				E41D6E1C1C5943F7005DE6AA /* Assets.xcassets */,
 				E41D6E211C5943F7005DE6AA /* Info.plist */,
 			);

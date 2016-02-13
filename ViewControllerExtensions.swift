@@ -20,7 +20,7 @@ extension UIViewController {
     
     func displayGenericAlert(title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
         self.presentViewController(alert, animated: true, completion: nil)
     }
     
@@ -39,13 +39,15 @@ extension UIViewController {
     func subscribeToKeyboardNotifications() {
         // register the VC to respond to keyboard visibility change notifications
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide", name: UIKeyboardWillHideNotification, object: nil)
     }
+    
     func unsubscribeFromKeyboardNotifications() {
         // de-register the VC to respond to keyboard visibility change notifications
         NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillShowNotification, object: nil)
         NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillHideNotification, object: nil)
     }
+    
     func keyboardWillShow(notification: NSNotification) {
         // if bottom of field being edited is lower than top of keyboard,
         //    raise the view by the height of keyboard during editing.
@@ -59,12 +61,12 @@ extension UIViewController {
         if yUp < hKeys {
             view.frame.origin.y -= hKeys
         }
-        
     }
-    func keyboardWillHide(notification: NSNotification) {
-       
-            view.frame.origin.y = 0
+    
+    func keyboardWillHide() {
+        view.frame.origin.y = 0
     }
+    
     func getKeyboardHeight(notification: NSNotification) -> CGFloat {
         // get the userInfo dictionary from the notification
         let userInfo = notification.userInfo

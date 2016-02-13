@@ -34,6 +34,7 @@ class BeerEditorVC: BeerLoginController, UITableViewDelegate, UITableViewDataSou
     
     var addBeerDelegate: WatchlistDelegate!
     
+    var beerLocWasSet = false
     var isHomeBrew: Bool!
     var drinkBy: Bool!
     var halfBeerResults = [HalfBeer]()
@@ -75,6 +76,7 @@ class BeerEditorVC: BeerLoginController, UITableViewDelegate, UITableViewDataSou
         if let watcher = currentHalfBeer {
             print("about to add \(watcher) to watchlist")
             addBeerDelegate.addToWatchlist(watcher)
+            navigationController!.popViewControllerAnimated(true)
         } else {
             displayGenericAlert("", message: "Please add a beer to watch.")
         }
@@ -86,8 +88,8 @@ class BeerEditorVC: BeerLoginController, UITableViewDelegate, UITableViewDataSou
     }
     @IBAction func homebrewSwitchToggled(sender: AnyObject) {
         isHomeBrew = !isHomeBrew
-        currentBeerDisplay.enabled = isHomeBrew
-        currentBeerBrewer.enabled = isHomeBrew
+        //currentBeerDisplay.enabled = isHomeBrew
+        //currentBeerBrewer.enabled = isHomeBrew
         currentBeerBrewer.hidden = !isHomeBrew
         currentBeerDisplay.hidden = !isHomeBrew
         currentBeerBrewer.text = ""
@@ -190,7 +192,8 @@ class BeerEditorVC: BeerLoginController, UITableViewDelegate, UITableViewDataSou
     func setBeerLoc(site: CLLocationCoordinate2D?) {
         beerAt = site
         if site != nil {
-            beerLocButton.setTitle("Change beer location", forState: .Normal)
+            beerLocButton.setTitle("Change location", forState: .Normal)
+            beerLocWasSet = true
         }
     }
 
