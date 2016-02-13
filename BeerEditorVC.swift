@@ -80,16 +80,19 @@ class BeerEditorVC: BeerLoginController, UITableViewDelegate, UITableViewDataSou
         } else {
             displayGenericAlert("", message: "Please add a beer to watch.")
         }
-        
+        if isHomeBrew! {
+            // make sure beername and brewer aren't empty and then make a beer with as much info provided
+            //  i.e. born on, vessel, description.
+        }
+
     }
     
     @IBAction func beerDateSwitchToggled(sender: UISwitch) {
         drinkBy = !drinkBy
     }
+    
     @IBAction func homebrewSwitchToggled(sender: AnyObject) {
         isHomeBrew = !isHomeBrew
-        //currentBeerDisplay.enabled = isHomeBrew
-        //currentBeerBrewer.enabled = isHomeBrew
         currentBeerBrewer.hidden = !isHomeBrew
         currentBeerDisplay.hidden = !isHomeBrew
         currentBeerBrewer.text = ""
@@ -121,10 +124,7 @@ class BeerEditorVC: BeerLoginController, UITableViewDelegate, UITableViewDataSou
         currentBeerBrewer.text = currentHalfBeer!.maker
         currentBeerBrewer.hidden = false
         currentBeerDisplay.hidden = false
-        
-        print(currentHalfBeer)
         tableView.hidden = true
-        
     }
     
     // MARK: - Search Bar Delegate methods:

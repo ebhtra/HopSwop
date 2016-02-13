@@ -13,7 +13,6 @@ import MapKit
 class Beer: NSManagedObject, MKAnnotation {
     
    
-    @NSManaged var notInDB: Bool
     @NSManaged var descrip: String
     @NSManaged var objectId: String
     @NSManaged var latitude: Double
@@ -22,10 +21,10 @@ class Beer: NSManagedObject, MKAnnotation {
     @NSManaged var brewer: String
     @NSManaged var owner: User?
     @NSManaged var watcher: User?
-    @NSManaged var vessel: String
-    @NSManaged var bornOn: Bool
-    @NSManaged var drinkDate: NSDate
-    @NSManaged var justWatching: Bool
+    @NSManaged var vessel: String?
+    @NSManaged var bornOn: NSNumber?  // can't use optional Bool for this property
+    @NSManaged var drinkDate: NSDate?
+    
     
     
     // MKMapView will not add MKAnnotations from fetched CoreData Pins without a coordinate getter:
@@ -47,16 +46,15 @@ class Beer: NSManagedObject, MKAnnotation {
         latitude = dict["latitude"] as! Double
         longitude = dict["longitude"] as! Double
         objectId = dict["objectId"] as! String
-        notInDB = dict["notInDB"] as! Bool
         descrip = dict["descrip"] as! String
         beerName = dict["beerName"] as! String
         brewer = dict["brewer"] as! String
         owner = dict["owner"] as? User
         watcher = dict["watcher"] as? User
-        vessel = dict["vessel"] as! String
-        bornOn = dict["bornOn"] as! Bool
-        drinkDate = dict["drinkDate"] as! NSDate
-        justWatching = dict["justWatching"] as! Bool
+        vessel = dict["vessel"] as? String
+        bornOn = dict["bornOn"] as? Bool
+        drinkDate = dict["drinkDate"] as? NSDate
+        
         
     }
     /*

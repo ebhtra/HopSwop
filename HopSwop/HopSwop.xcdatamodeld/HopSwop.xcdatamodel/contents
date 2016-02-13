@@ -6,10 +6,8 @@
         <attribute name="brewer" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="descrip" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="drinkDate" optional="YES" attributeType="Date" syncable="YES"/>
-        <attribute name="justWatching" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="latitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <attribute name="longitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
-        <attribute name="notInDB" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="objectId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="vessel" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="owner" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="User" inverseName="swopBeer" inverseEntity="User" syncable="YES"/>
@@ -30,7 +28,7 @@
         <relationship name="watchBeer" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Beer" inverseName="watcher" inverseEntity="Beer" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Beer" positionX="-63" positionY="-18" width="128" height="240"/>
+        <element name="Beer" positionX="-63" positionY="-18" width="128" height="210"/>
         <element name="Message" positionX="-54" positionY="45" width="128" height="105"/>
         <element name="User" positionX="-54" positionY="36" width="128" height="135"/>
     </elements>
