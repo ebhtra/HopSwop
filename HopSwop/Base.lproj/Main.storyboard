@@ -616,10 +616,10 @@
                                     <outlet property="delegate" destination="vce-cu-OM5" id="QRb-8z-ZgQ"/>
                                 </connections>
                             </textField>
-                            <textField hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter homebrewer's name here" textAlignment="center" clearsOnBeginEditing="YES" minimumFontSize="12" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="ibP-Cw-eKQ">
-                                <rect key="frame" x="122" y="118" width="240" height="20"/>
+                            <textField hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter brewer's name here" textAlignment="center" clearsOnBeginEditing="YES" minimumFontSize="12" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="ibP-Cw-eKQ">
+                                <rect key="frame" x="138" y="118" width="224" height="20"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="240" id="5O4-EW-f6q"/>
+                                    <constraint firstAttribute="width" constant="224" id="5O4-EW-f6q"/>
                                     <constraint firstAttribute="height" constant="20" id="5jz-Fj-8yO"/>
                                 </constraints>
                                 <color key="textColor" red="0.45000000000000001" green="0.36387310610000001" blue="0.2028172348" alpha="1" colorSpace="calibratedRGB"/>
@@ -629,13 +629,13 @@
                                     <outlet property="delegate" destination="vce-cu-OM5" id="5lk-Dh-bzz"/>
                                 </connections>
                             </textField>
-                            <textField hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter your homebrew's name here" textAlignment="center" clearsOnBeginEditing="YES" minimumFontSize="12" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="6A0-xj-41v">
-                                <rect key="frame" x="122" y="94" width="240" height="24"/>
+                            <textField hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter brew's name here" textAlignment="center" clearsOnBeginEditing="YES" minimumFontSize="12" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="6A0-xj-41v">
+                                <rect key="frame" x="138" y="94" width="224" height="24"/>
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" notEnabled="YES"/>
                                 </accessibility>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="240" id="o4U-Bi-0Dp"/>
+                                    <constraint firstAttribute="width" constant="224" id="o4U-Bi-0Dp"/>
                                     <constraint firstAttribute="height" constant="24" id="sv8-7V-ynU"/>
                                 </constraints>
                                 <color key="textColor" red="0.45000000000000001" green="0.36387310610000001" blue="0.2028172348" alpha="1" colorSpace="calibratedRGB"/>
@@ -783,7 +783,7 @@
                             <constraint firstItem="zmr-VS-Ww8" firstAttribute="top" secondItem="5Ee-Xy-aQq" secondAttribute="bottom" constant="8" symbolic="YES" id="26c-ez-QPn"/>
                             <constraint firstItem="6A0-xj-41v" firstAttribute="top" secondItem="2gX-8q-WaN" secondAttribute="bottom" id="2pb-Hj-IlF"/>
                             <constraint firstItem="5Ee-Xy-aQq" firstAttribute="leading" secondItem="bMt-ub-faW" secondAttribute="trailing" constant="8" id="4v1-Pi-8Jx"/>
-                            <constraint firstItem="ibP-Cw-eKQ" firstAttribute="centerX" secondItem="uPh-nY-4dv" secondAttribute="centerX" constant="-58" id="5Hn-na-r4y"/>
+                            <constraint firstItem="ibP-Cw-eKQ" firstAttribute="centerX" secondItem="uPh-nY-4dv" secondAttribute="centerX" constant="-50" id="5Hn-na-r4y"/>
                             <constraint firstItem="1Td-ki-JD6" firstAttribute="width" secondItem="DrD-t1-tk5" secondAttribute="width" id="5Qr-C4-Lby"/>
                             <constraint firstItem="vPK-Gy-y12" firstAttribute="leading" secondItem="gbF-on-crr" secondAttribute="leading" id="6Iy-xh-0gp"/>
                             <constraint firstItem="dkM-VQ-fgB" firstAttribute="leading" secondItem="AP3-Dj-KsR" secondAttribute="trailing" constant="8" id="AGX-fV-VJ6"/>

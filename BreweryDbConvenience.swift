@@ -37,27 +37,13 @@ extension BreweryDbClient {
                         if let brewers = beer["breweries"] as? [[String : AnyObject]] {
                             
                             maker = (brewers[0]["name"] ?? brewers[0]["nameShortDisplay"]) as! String
-                            //self.listOfImageUrls.append((brewers[0]["images"]!["icon"] as? String)!)
+                            // (brewers[0]["images"]!["icon"] as? String) holds brewery icons if needed later
                             
                         }
                         beerlist.append(HalfBeer(name: name, maker: maker, id: id, notes: notes))
-                        //let _ = Beer(beerName: name, context: self.sharedContext)
-                        //print(beer)
                     }
-                    //CoreDataStackManager.sharedInstance().saveContext()
-                    /*
-                    // Create an array of Beer instances from the JSON dictionaries
-                    self.listOfBeers = beerDictionaries.map() {
-                    Beer(dictionary: $0, context: self.temporaryContext)
-                    }
-                    */
-                    // Reload the table on the main thread
-                   // dispatch_async(dispatch_get_main_queue()) {
-                    //    self.searchTable.reloadData()
-                    //}
-                    
-                    
                     completionHandler(result: beerlist, error: nil)
+                    
                 } else {
                     completionHandler(result: nil, error: NSError(domain: "halfBeerSearch parsing", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not parse halfBeerSearch"]))
                 }

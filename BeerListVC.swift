@@ -39,7 +39,7 @@ class BeerListVC: UIViewController, NSFetchedResultsControllerDelegate, UITableV
         let fetchRequest = NSFetchRequest(entityName: "Beer")
         
         fetchRequest.sortDescriptors = []
-        fetchRequest.predicate = NSPredicate(format: "owner != nil")
+        fetchRequest.predicate = NSPredicate(format: "owner != nil")  // (format: "watcher == %@", @NO)  maybe??
         
         let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
             managedObjectContext: self.sharedContext,
@@ -68,7 +68,8 @@ class BeerListVC: UIViewController, NSFetchedResultsControllerDelegate, UITableV
             
             return cell
     }
-    
+    /*   don't think we want to edit this
+
     func tableView(tableView: UITableView,
         commitEditingStyle editingStyle: UITableViewCellEditingStyle,
         forRowAtIndexPath indexPath: NSIndexPath) {
@@ -85,7 +86,7 @@ class BeerListVC: UIViewController, NSFetchedResultsControllerDelegate, UITableV
                 break
             }
     }
-    
+    */
     // MARK: - Fetched Results Controller Delegate
    
     func controllerWillChangeContent(controller: NSFetchedResultsController) {

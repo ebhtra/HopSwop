@@ -8,10 +8,6 @@
 
 import UIKit
 
-protocol WatchlistDelegate {
-    func addToWatchlist(_: HalfBeer)
-}
-
 class BeerEditorVC: BeerLoginController, UITableViewDelegate, UITableViewDataSource, UIPickerViewDataSource, UIPickerViewDelegate, LocationDelegate, UISearchBarDelegate {
     
     @IBOutlet weak var searcher: UISearchBar!
@@ -32,17 +28,15 @@ class BeerEditorVC: BeerLoginController, UITableViewDelegate, UITableViewDataSou
     var currentBeer: Beer?
     var currentHalfBeer: HalfBeer?
     
-    var addBeerDelegate: WatchlistDelegate!
-    
     var beerLocWasSet = false
     var isHomeBrew: Bool!
     var drinkBy: Bool!
     var halfBeerResults = [HalfBeer]()
     var searchTask: NSURLSessionDataTask?
     var beerAt: CLLocationCoordinate2D?
-    var vessel: String!
+    var vessel = 0
     
-    let pickerArray = ["Bottles", "Cans", "Crowlers", "Draft"]
+    let pickerArray = ["(none)", "Bottles", "Cans", "Crowlers", "Draft"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,16 +60,23 @@ class BeerEditorVC: BeerLoginController, UITableViewDelegate, UITableViewDataSou
     @IBAction func beerLocButtonTap(sender: UIButton) {
         let nextVC = storyboard?.instantiateViewControllerWithIdentifier("BeerLocation") as! BeerLocatorVC
         nextVC.locDelegate = self
+        if let coord = beerAt {
+            nextVC.oldCoord = coord
+        }
         presentViewController(nextVC, animated: true, completion: nil)
     }
     
     @IBAction func swopButtonTap(sender: UIButton) {
+        if validateSwopFields() {
+            print("yay")
+        } else {
+            print("booo")
+        }
     }
     
     @IBAction func watchlistButtonTap(sender: UIButton) {
         if let watcher = currentHalfBeer {
             print("about to add \(watcher) to watchlist")
-            addBeerDelegate.addToWatchlist(watcher)
             navigationController!.popViewControllerAnimated(true)
         } else {
             displayGenericAlert("", message: "Please add a beer to watch.")
@@ -166,7 +167,6 @@ class BeerEditorVC: BeerLoginController, UITableViewDelegate, UITableViewDataSou
     
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
-        
     }
     
     // MARK: - UIPickerView delegate methods:
@@ -174,6 +174,7 @@ class BeerEditorVC: BeerLoginController, UITableViewDelegate, UITableViewDataSou
     func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
         return 1
     }
+    
     func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return pickerArray.count
     }
@@ -186,6 +187,9 @@ class BeerEditorVC: BeerLoginController, UITableViewDelegate, UITableViewDataSou
     func pickerView(pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat {
         return CGFloat(110)
     }
+    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        vessel = row
+    }
     
     // MARK: - LocationDelegate method:
     
@@ -196,5 +200,14 @@ class BeerEditorVC: BeerLoginController, UITableViewDelegate, UITableViewDataSou
             beerLocWasSet = true
         }
     }
-
+    
+    // MARK: - Helpers
+    
+    func validateSwopFields() -> Bool {
+        if currentBeerDisplay.text! == "" || currentBeerBrewer.text! == "" || vessel == 0 || beerAt == nil {
+            displayGenericAlert("Please enter more info to swop your beer--", message: "At the least, you must enter the beer's name, brewer, location, and container.  If you can, add a freshness date and some notes.")
+            return false
+        }
+        return true
+    }
 }

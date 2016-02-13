@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class MyBeersVC: UIViewController, NSFetchedResultsControllerDelegate, UITableViewDelegate, UITableViewDataSource, WatchlistDelegate {
+class MyBeersVC: UIViewController, NSFetchedResultsControllerDelegate, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var swopTable: UITableView!
     @IBOutlet weak var watchTable: UITableView!
@@ -19,6 +19,8 @@ class MyBeersVC: UIViewController, NSFetchedResultsControllerDelegate, UITableVi
     
     var watchbeerlist = [HalfBeer]()
     var swopbeerlist = [Beer]()
+    
+    let currUser = PFUser.currentUser()!
     
     override func viewDidLoad() {
         
@@ -55,6 +57,41 @@ class MyBeersVC: UIViewController, NSFetchedResultsControllerDelegate, UITableVi
     override func viewWillDisappear(animated: Bool) {
         parentViewController?.navigationItem.rightBarButtonItem?.title! = "Refresh"
     }
+    
+    var sharedContext: NSManagedObjectContext {
+        return CoreDataStackManager.sharedInstance().managedObjectContext
+    }
+
+    lazy var watchedResultsController: NSFetchedResultsController = {
+        
+        let fetchRequest = NSFetchRequest(entityName: "Beer")
+        
+        fetchRequest.sortDescriptors = []
+        fetchRequest.predicate = NSPredicate(format: "watcher == %@", self.currUser)
+        
+        let watchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
+            managedObjectContext: self.sharedContext,
+            sectionNameKeyPath: nil,
+            cacheName: nil)
+        
+        return watchedResultsController
+    }()
+    
+    lazy var swoppedResultsController: NSFetchedResultsController = {
+        
+        let fetchRequest = NSFetchRequest(entityName: "Beer")
+        
+        fetchRequest.sortDescriptors = []
+        fetchRequest.predicate = NSPredicate(format: "owner == %@", self.currUser )
+        
+        let swoppedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
+            managedObjectContext: self.sharedContext,
+            sectionNameKeyPath: nil,
+            cacheName: nil)
+        
+        return swoppedResultsController
+    }()
+    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView == swopTable {
             return swopbeerlist.count
@@ -62,30 +99,32 @@ class MyBeersVC: UIViewController, NSFetchedResultsControllerDelegate, UITableVi
             return watchbeerlist.count
         }
     }
+    
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let beerCell = tableView.dequeueReusableCellWithIdentifier("basicCell")
-        //let beer = self.fetchedResultsController.objectAtIndexPath(indexPath) as! Beer
-        //print("made it to here")
+        let beerCell = tableView.dequeueReusableCellWithIdentifier("basicCell")!
+        
+        if tableView == swopTable {
+            let beer = swoppedResultsController.objectAtIndexPath(indexPath) as! Beer
+            print("made it to here")
+            beerCell.textLabel?.text = beer.beerName
+            beerCell.detailTextLabel?.text = beer.brewer
+        }
+            
         if tableView == watchTable {
-            let watchbeer = watchbeerlist[indexPath.row]
-            beerCell?.textLabel?.text = watchbeer.name
-            beerCell?.detailTextLabel?.text = watchbeer.maker
-            let notes = UITextView()
-            notes.text = watchbeer.notes
-            beerCell?.accessoryView = notes
-        } else {
-            if tableView == swopTable {
-                let swopper = swopbeerlist[indexPath.row]
-            // add beername and brewer to Beer to be able to use here
+            let beer = watchedResultsController.objectAtIndexPath(indexPath) as! Beer
+            print("oh yeah?? made it to here")
+            beerCell.textLabel?.text = beer.beerName
+            beerCell.detailTextLabel?.text = beer.brewer
+        }
+            
             // add detail callout with chevron on right of cells
             // add editable/deletable with swipe
             //  this type of cell may be same as for beerlistVC later
-            }
-        }
         
-        return beerCell!
+        return beerCell
 
     }
+    
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if tableView == watchTable {
             let watchbeer = watchbeerlist[indexPath.row]
@@ -94,18 +133,9 @@ class MyBeersVC: UIViewController, NSFetchedResultsControllerDelegate, UITableVi
             navigationController?.pushViewController(detesVC, animated: true)
         }
     }
+    
     func showEditor() {
         let beerEditor = storyboard!.instantiateViewControllerWithIdentifier("BeerEditor") as! BeerEditorVC
-        beerEditor.addBeerDelegate = self
         navigationController?.pushViewController(beerEditor, animated: true)
-    }
-    func addToSwoplist(newBeer: Beer) {
-        swopbeerlist.append(newBeer)
-        swopTable.reloadData()
-    }
-    func addToWatchlist(newBeer: HalfBeer) {
-        watchbeerlist.append(newBeer)
-
-        watchTable.reloadData()
     }
 }

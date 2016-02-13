@@ -26,6 +26,7 @@ class BeerLocatorVC: UIViewController, MKMapViewDelegate {
     var newPin = MKPointAnnotation()
     var locDelegate: LocationDelegate!
     var mapTap = UITapGestureRecognizer()
+    var oldCoord: CLLocationCoordinate2D?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,6 +34,12 @@ class BeerLocatorVC: UIViewController, MKMapViewDelegate {
         
         //set map to last region and zoom
         restoreMapRegion(true)
+        
+        if let coord = oldCoord {
+            newPin.coordinate = coord
+            globalMap.addAnnotation(newPin)
+        }
+        
         
         mapTap.addTarget(self, action: Selector("placePin:"))
         //mapTap.minimumPressDuration = 0.1
