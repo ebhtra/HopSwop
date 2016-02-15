@@ -11,6 +11,18 @@ import CoreData
 
 class User: NSManagedObject {
     
+    static let thisUser = User(dict: [Keys.ParseID: PFUser.currentUser()!.objectId!,
+        Keys.Username: PFUser.currentUser()!.username!], context: CoreDataStackManager.sharedInstance().managedObjectContext)
+    
+    struct Keys {
+        static let ParseID = "parseId"
+        static let Username = "username"
+        static let GotMsg = "gotMsg"
+        static let SentMsg = "sentMsg"
+        static let Watchers = "watchBeer"
+        static let Swoppers = "swopBeer"
+    }
+    
     @NSManaged var parseId: String
     @NSManaged var username: String
     @NSManaged var gotMsg: [Message]
@@ -25,7 +37,7 @@ class User: NSManagedObject {
         let entity = NSEntityDescription.entityForName("User", inManagedObjectContext: context)
         super.init(entity: entity!, insertIntoManagedObjectContext: context)
         
-        parseId = dict["parseId"] as! String
-        username = dict["username"] as! String
+        parseId = dict[Keys.ParseID] as! String
+        username = dict[Keys.Username] as! String
     }
 }

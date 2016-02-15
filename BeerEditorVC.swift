@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import CoreData
 
-class BeerEditorVC: BeerLoginController, UITableViewDelegate, UITableViewDataSource, UIPickerViewDataSource, UIPickerViewDelegate, LocationDelegate, UISearchBarDelegate {
+class BeerEditorVC: BeerLoginController, UITableViewDelegate, UITableViewDataSource, UIPickerViewDataSource, UIPickerViewDelegate, LocationDelegate, UISearchBarDelegate, UITextViewDelegate {
     
     @IBOutlet weak var searcher: UISearchBar!
     @IBOutlet weak var searchTable: UITableView!
@@ -25,18 +26,20 @@ class BeerEditorVC: BeerLoginController, UITableViewDelegate, UITableViewDataSou
     @IBOutlet weak var watchlistButton: UIButton!
     @IBOutlet weak var beerNotes: UITextView!
     
-    var currentBeer: Beer?
-    var currentHalfBeer: HalfBeer?
+    var currentBeer: Beer?  // in case this VC is used later for editing existing Beers
+    var currentHalfBeer: HalfBeer?  // since searchBar is returning results in this form
     
-    var beerLocWasSet = false
     var isHomeBrew: Bool!
     var drinkBy: Bool!
     var halfBeerResults = [HalfBeer]()
     var searchTask: NSURLSessionDataTask?
     var beerAt: CLLocationCoordinate2D?
-    var vessel = 0
+    var vesselType = 0
+    var wasEdited = false // did user tap in the notes field yet?
     
-    let pickerArray = ["(none)", "Bottles", "Cans", "Crowlers", "Draft"]
+    let pickerArray = ["😧 none", "Bottles", "Cans", "Crowlers", "Draft"]
+    
+    let sharedContext = CoreDataStackManager.sharedInstance().managedObjectContext
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,6 +61,9 @@ class BeerEditorVC: BeerLoginController, UITableViewDelegate, UITableViewDataSou
     }
 
     @IBAction func beerLocButtonTap(sender: UIButton) {
+        // Modally present a map for user to drop a pin on.
+        //   Send any currently stored pin over to display on map.
+        //   Set this VC as delegate to receive new coordinate back from map.
         let nextVC = storyboard?.instantiateViewControllerWithIdentifier("BeerLocation") as! BeerLocatorVC
         nextVC.locDelegate = self
         if let coord = beerAt {
@@ -67,25 +73,59 @@ class BeerEditorVC: BeerLoginController, UITableViewDelegate, UITableViewDataSou
     }
     
     @IBAction func swopButtonTap(sender: UIButton) {
+        
         if validateSwopFields() {
-            print("yay")
+            
+            var swopDict: [String: AnyObject?]
+            swopDict = [Beer.Keys.Lat: beerAt!.latitude,
+                       Beer.Keys.Lon: beerAt!.longitude,
+                       Beer.Keys.Name: currentBeerDisplay.text!,
+                       Beer.Keys.Brewer: currentBeerBrewer.text!,
+                       Beer.Keys.Vessel: pickerArray[vesselType],
+                       Beer.Keys.BornOn: !beerDateSwitch.on,
+                       Beer.Keys.DrinkDate: tryForDate(),
+                       Beer.Keys.Descrip: tryForNotes(),
+                       Beer.Keys.BrewDBID: currentHalfBeer?.id ?? "",
+                       Beer.Keys.ParseID: currentBeer?.parseId ?? "", // keep same ID if editing existing
+                       Beer.Keys.Watcher: nil,
+                       Beer.Keys.Owner: User.thisUser]
+            print(swopDict)
+            let _ = Beer(dict: swopDict, context: sharedContext)
+            
+            navigationController!.popViewControllerAnimated(true)
+            
+            CoreDataStackManager.sharedInstance().saveContext()
+            
         } else {
             print("booo")
         }
     }
     
     @IBAction func watchlistButtonTap(sender: UIButton) {
-        if let watcher = currentHalfBeer {
-            print("about to add \(watcher) to watchlist")
-            navigationController!.popViewControllerAnimated(true)
+        
+        if currentBeerDisplay.text! == "" || currentBeerBrewer.text! == "" {
+            displayGenericAlert("Please enter a beer name and brewer.", message: "")
         } else {
-            displayGenericAlert("", message: "Please add a beer to watch.")
+            var watchDict = [String: AnyObject?]()
+            watchDict[Beer.Keys.Lat] = 500.0
+            watchDict[Beer.Keys.Lon] = 500.0
+            watchDict[Beer.Keys.Name] = currentBeerDisplay.text!
+            watchDict[Beer.Keys.Brewer] = currentBeerBrewer.text!
+            watchDict[Beer.Keys.Vessel] = ""
+            watchDict[Beer.Keys.BornOn] = false
+            watchDict[Beer.Keys.DrinkDate] = ""
+            watchDict[Beer.Keys.Descrip] = getWatcherNotes()
+            watchDict[Beer.Keys.BrewDBID] = currentHalfBeer?.id ?? ""
+            watchDict[Beer.Keys.ParseID] = ""
+            watchDict[Beer.Keys.Watcher] = User.thisUser
+            watchDict[Beer.Keys.Owner] = nil
+            
+            let _ = Beer(dict: watchDict, context: sharedContext)
+            
+            navigationController!.popViewControllerAnimated(true)
+            
+            CoreDataStackManager.sharedInstance().saveContext()
         }
-        if isHomeBrew! {
-            // make sure beername and brewer aren't empty and then make a beer with as much info provided
-            //  i.e. born on, vessel, description.
-        }
-
     }
     
     @IBAction func beerDateSwitchToggled(sender: UISwitch) {
@@ -98,7 +138,36 @@ class BeerEditorVC: BeerLoginController, UITableViewDelegate, UITableViewDataSou
         currentBeerDisplay.hidden = !isHomeBrew
         currentBeerBrewer.text = ""
         currentBeerDisplay.text = ""
+        currentHalfBeer = nil
         searcher.hidden = isHomeBrew
+    }
+    // MARK: - UITextView delegate methods:
+    
+    func textViewDidBeginEditing(textView: UITextView) {
+        if textView == beerNotes {
+            if !wasEdited {
+                textView.text = ""
+                wasEdited = true
+            }
+        }
+    }
+    
+    // MARK: - UITextField delegate methods:
+    
+    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+        
+        if textField == beerMonth || textField == beerDay || textField == beerYear {
+            //store the unedited contents of textfield
+            var entered: NSString = textField.text!
+            
+            //Allow edit to happen only if new text will be fewer than 3 numbers long
+            if (entered.length - range.length + (string as NSString).length) < 3 {
+                entered = entered.stringByReplacingCharactersInRange(range, withString: string)
+                return true
+            }
+            return false
+        }
+        return true
     }
     
     // MARK: - UITableView delegate methods:
@@ -108,9 +177,8 @@ class BeerEditorVC: BeerLoginController, UITableViewDelegate, UITableViewDataSou
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let beerCell = tableView.dequeueReusableCellWithIdentifier("beerCell") as! BeerCell
         
-        //let beer = self.fetchedResultsController.objectAtIndexPath(indexPath) as! Beer
+        let beerCell = tableView.dequeueReusableCellWithIdentifier("beerCell") as! BeerCell
         
         let halfBeer = halfBeerResults[indexPath.row]
         beerCell.beerName.text = halfBeer.name
@@ -119,12 +187,14 @@ class BeerEditorVC: BeerLoginController, UITableViewDelegate, UITableViewDataSou
         return beerCell
     }
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-       
+        
+        currentBeerBrewer.hidden = false
+        currentBeerDisplay.hidden = false
+        
         currentHalfBeer = halfBeerResults[indexPath.row]
         currentBeerDisplay.text = currentHalfBeer!.name
         currentBeerBrewer.text = currentHalfBeer!.maker
-        currentBeerBrewer.hidden = false
-        currentBeerDisplay.hidden = false
+        
         tableView.hidden = true
     }
     
@@ -188,7 +258,7 @@ class BeerEditorVC: BeerLoginController, UITableViewDelegate, UITableViewDataSou
         return CGFloat(110)
     }
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        vessel = row
+        vesselType = row
     }
     
     // MARK: - LocationDelegate method:
@@ -197,17 +267,38 @@ class BeerEditorVC: BeerLoginController, UITableViewDelegate, UITableViewDataSou
         beerAt = site
         if site != nil {
             beerLocButton.setTitle("Change location", forState: .Normal)
-            beerLocWasSet = true
         }
     }
     
     // MARK: - Helpers
     
     func validateSwopFields() -> Bool {
-        if currentBeerDisplay.text! == "" || currentBeerBrewer.text! == "" || vessel == 0 || beerAt == nil {
+        if currentBeerDisplay.text! == "" || currentBeerBrewer.text! == "" || vesselType == 0 || beerAt == nil {
             displayGenericAlert("Please enter more info to swop your beer--", message: "At the least, you must enter the beer's name, brewer, location, and container.  If you can, add a freshness date and some notes.")
             return false
         }
         return true
+    }
+    
+    func tryForDate() -> String {
+        if let month = beerMonth.text, day = beerDay.text, year = beerYear.text {
+            if Int(month) < 13 && Int(day) < 32 {
+                return "\(month)-\(day)-\(year)"
+            }
+        }
+        return "No Date"
+    }
+    func tryForNotes() -> String {
+        if homebrewSwitch.on {
+            return !wasEdited ? "" : beerNotes.text
+        }
+        return !wasEdited ? currentHalfBeer!.notes : beerNotes.text
+        
+    }
+    func getWatcherNotes() -> String {
+        if wasEdited {
+            return beerNotes.text!
+        }
+        return currentHalfBeer?.notes ?? ""
     }
 }

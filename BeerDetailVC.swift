@@ -12,14 +12,14 @@ class BeerDetailVC: BeerLoginController {
     
     @IBOutlet weak var detes: UITextView!
     
-    var beer: HalfBeer!
+    var beer: Beer!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        detes.text = beer.notes
-        if beer.notes.isEmpty {
-            detes.text = "Unfortunately, \(beer.maker) has not yet provided any notes or description."
+        detes.text = beer.descrip
+        if beer.descrip.isEmpty {
+            detes.text = "Unfortunately, \(beer.brewer) has not yet provided any notes or description."
         }
     }
     
