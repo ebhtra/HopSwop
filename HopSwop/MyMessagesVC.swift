@@ -23,7 +23,7 @@ class MyMessagesVC: BeerLoginController, NSFetchedResultsControllerDelegate {
         
         let fetchRequest = NSFetchRequest(entityName: "Message")
         
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "updatedAt", ascending: false)]
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "updatedAt", ascending: true)]
         
         let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
             managedObjectContext: self.sharedContext,
