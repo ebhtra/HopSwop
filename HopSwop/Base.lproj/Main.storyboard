@@ -423,6 +423,62 @@
             </objects>
             <point key="canvasLocation" x="3458" y="1026"/>
         </scene>
+        <!--Swop BeerVC-->
+        <scene sceneID="yZf-zm-ofQ">
+            <objects>
+                <viewController id="hdH-AT-XTp" customClass="SwopBeerVC" customModule="HopSwop" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="XWJ-OJ-VeC"/>
+                        <viewControllerLayoutGuide type="bottom" id="iRs-dx-aQL"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Fhu-Er-D3f">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xcE-iS-bDK">
+                                <rect key="frame" x="180" y="65" width="240" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="240" id="bH7-ng-5jT"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" red="0.45000000000000001" green="0.36387310610000001" blue="0.2028172348" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UIb-G7-izB">
+                                <rect key="frame" x="180" y="44" width="240" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="240" id="f7e-eg-9xO"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                                <color key="textColor" red="0.45000000000000001" green="0.36387310610000001" blue="0.2028172348" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vhj-j6-aOb">
+                                <rect key="frame" x="36" y="102" width="528" height="482"/>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="UIb-G7-izB" firstAttribute="centerX" secondItem="Fhu-Er-D3f" secondAttribute="centerX" id="G6E-gU-UrS"/>
+                            <constraint firstItem="UIb-G7-izB" firstAttribute="top" secondItem="XWJ-OJ-VeC" secondAttribute="bottom" constant="24" id="HXn-d1-w8c"/>
+                            <constraint firstItem="xcE-iS-bDK" firstAttribute="top" secondItem="UIb-G7-izB" secondAttribute="bottom" id="Ht5-4a-GsS"/>
+                            <constraint firstItem="vhj-j6-aOb" firstAttribute="top" secondItem="xcE-iS-bDK" secondAttribute="bottom" constant="16" id="JBy-wg-6yV"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="vhj-j6-aOb" secondAttribute="trailing" constant="16" id="YIM-ZY-Yzd"/>
+                            <constraint firstItem="iRs-dx-aQL" firstAttribute="top" secondItem="vhj-j6-aOb" secondAttribute="bottom" constant="16" id="ifm-RM-JGI"/>
+                            <constraint firstItem="xcE-iS-bDK" firstAttribute="centerX" secondItem="Fhu-Er-D3f" secondAttribute="centerX" id="mkK-I3-tof"/>
+                            <constraint firstItem="vhj-j6-aOb" firstAttribute="leading" secondItem="Fhu-Er-D3f" secondAttribute="leadingMargin" constant="16" id="olv-Sg-VjW"/>
+                            <constraint firstItem="vhj-j6-aOb" firstAttribute="centerX" secondItem="Fhu-Er-D3f" secondAttribute="centerX" id="zzd-do-pdU"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="beerLabel" destination="UIb-G7-izB" id="eV8-tw-Y9i"/>
+                        <outlet property="brewerLabel" destination="xcE-iS-bDK" id="Osl-tu-VsP"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="aO0-wU-HCi" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3526" y="1557"/>
+        </scene>
         <!--Message Board-->
         <scene sceneID="FYV-3o-D1i">
             <objects>

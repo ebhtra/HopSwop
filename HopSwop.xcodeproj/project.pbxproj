@@ -28,6 +28,7 @@
 		E41D6E411C594901005DE6AA /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E41D6E401C594901005DE6AA /* CoreLocation.framework */; };
 		E423E51C1C6A68D500C342B3 /* BeerLocatorVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E423E51B1C6A68D500C342B3 /* BeerLocatorVC.swift */; };
 		E423E51E1C6CE66E00C342B3 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = E423E51D1C6CE66E00C342B3 /* User.swift */; };
+		E42C1E601C7375FC0072DB6E /* SwopBeerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E42C1E5F1C7375FC0072DB6E /* SwopBeerVC.swift */; };
 		E43F9F4A1C5A6C0B006CD370 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = E43F9F491C5A6C0B006CD370 /* CoreDataStack.swift */; };
 		E43F9F541C5B3C4E006CD370 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E43F9F521C5B3C4E006CD370 /* FBSDKCoreKit.framework */; };
 		E43F9F551C5B3C4E006CD370 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E43F9F531C5B3C4E006CD370 /* FBSDKLoginKit.framework */; };
@@ -77,6 +78,7 @@
 		E41D6E401C594901005DE6AA /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		E423E51B1C6A68D500C342B3 /* BeerLocatorVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeerLocatorVC.swift; sourceTree = "<group>"; };
 		E423E51D1C6CE66E00C342B3 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		E42C1E5F1C7375FC0072DB6E /* SwopBeerVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwopBeerVC.swift; sourceTree = "<group>"; };
 		E43F9F491C5A6C0B006CD370 /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		E43F9F4F1C5B3221006CD370 /* HopSwop-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "HopSwop-Bridging-Header.h"; sourceTree = "<group>"; };
 		E43F9F521C5B3C4E006CD370 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
@@ -163,6 +165,7 @@
 			isa = PBXGroup;
 			children = (
 				E41D6E161C5943F7005DE6AA /* Main.storyboard */,
+				E42C1E5F1C7375FC0072DB6E /* SwopBeerVC.swift */,
 				E41D6E121C5943F7005DE6AA /* AppDelegate.swift */,
 				E43F9F491C5A6C0B006CD370 /* CoreDataStack.swift */,
 				E43F9F601C613FE7006CD370 /* Constants.swift */,
@@ -284,6 +287,7 @@
 				E423E51E1C6CE66E00C342B3 /* User.swift in Sources */,
 				E43F9F6F1C625A85006CD370 /* BeerList.swift in Sources */,
 				E43F9F671C621E67006CD370 /* MyBeersVC.swift in Sources */,
+				E42C1E601C7375FC0072DB6E /* SwopBeerVC.swift in Sources */,
 				E43F9F6D1C624F1C006CD370 /* BeerMapVC.swift in Sources */,
 				E4DE8F8B1C6677040098185E /* BeerEditorVC.swift in Sources */,
 				E43F9F751C6356FC006CD370 /* BeerLoginController.swift in Sources */,
