@@ -16,6 +16,7 @@ class SwopBeerVC: UIViewController {
     @IBOutlet weak var msgButton: UIButton!
     @IBOutlet weak var vesselLabel: UILabel!
     @IBOutlet weak var freshnessLabel: UILabel!
+    @IBOutlet weak var drinkByLabel: UILabel!
     @IBOutlet weak var ownerLabel: UILabel!
     @IBOutlet weak var beerLocMap: MKMapView!
     @IBOutlet weak var notesView: UITextView!
@@ -32,15 +33,24 @@ class SwopBeerVC: UIViewController {
         super.viewDidLoad()
         
         showBackgroundBeer()
+        
         showLocation()
         
         beerLabel.text = beer.beerName
         brewerLabel.text = beer.brewer
         vesselLabel.text = beer.vessel
+        drinkByLabel.text = beer.bornOn ? "Born on:" : "Drink by:"
+        freshnessLabel.text = beer.drinkDate
         ownerLabel.text = beer.owner!.username
         notesView.text = beer.descrip
 
         
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        zoomToBeer()
     }
     
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
@@ -62,5 +72,7 @@ class SwopBeerVC: UIViewController {
         pin.coordinate = CLLocationCoordinate2DMake(beer.latitude, beer.longitude)
         beerLocMap.addAnnotation(pin)
     }
-    
+    func zoomToBeer() {
+        beerLocMap.setRegion(MKCoordinateRegion(center: pin.coordinate, span: MKCoordinateSpanMake(0.01, 0.01)), animated: true)
+    }
 }
