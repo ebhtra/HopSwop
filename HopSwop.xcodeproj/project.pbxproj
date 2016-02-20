@@ -78,7 +78,7 @@
 		E41D6E401C594901005DE6AA /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		E423E51B1C6A68D500C342B3 /* BeerLocatorVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeerLocatorVC.swift; sourceTree = "<group>"; };
 		E423E51D1C6CE66E00C342B3 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		E42C1E5F1C7375FC0072DB6E /* SwopBeerVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwopBeerVC.swift; sourceTree = "<group>"; };
+		E42C1E5F1C7375FC0072DB6E /* SwopBeerVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwopBeerVC.swift; path = HopSwop/SwopBeerVC.swift; sourceTree = "<group>"; };
 		E43F9F491C5A6C0B006CD370 /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		E43F9F4F1C5B3221006CD370 /* HopSwop-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "HopSwop-Bridging-Header.h"; sourceTree = "<group>"; };
 		E43F9F521C5B3C4E006CD370 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
@@ -145,6 +145,7 @@
 				E4DE8F861C64C9BB0098185E /* MyMessagesVC.swift */,
 				E43F9F721C6354BE006CD370 /* ResetPWViewController.swift */,
 				E43F9F581C5BF50A006CD370 /* SignupViewController.swift */,
+				E42C1E5F1C7375FC0072DB6E /* SwopBeerVC.swift */,
 				E43F9F741C6356FC006CD370 /* BeerLoginController.swift */,
 				E43F9F561C5BD836006CD370 /* ViewControllerExtensions.swift */,
 				E41D6E111C5943F7005DE6AA /* HopSwop */,
@@ -165,7 +166,6 @@
 			isa = PBXGroup;
 			children = (
 				E41D6E161C5943F7005DE6AA /* Main.storyboard */,
-				E42C1E5F1C7375FC0072DB6E /* SwopBeerVC.swift */,
 				E41D6E121C5943F7005DE6AA /* AppDelegate.swift */,
 				E43F9F491C5A6C0B006CD370 /* CoreDataStack.swift */,
 				E43F9F601C613FE7006CD370 /* Constants.swift */,

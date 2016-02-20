@@ -156,6 +156,11 @@ class MyBeersVC: UIViewController, NSFetchedResultsControllerDelegate, UITableVi
             detesVC.beer = watchbeer
             navigationController?.pushViewController(detesVC, animated: true)
         }
+        if tableView == swopTable {
+            let detesVC = storyboard?.instantiateViewControllerWithIdentifier("SwopperScene") as! SwopBeerVC
+            detesVC.beer = swoppedResultsController.objectAtIndexPath(indexPath) as! Beer
+            navigationController?.pushViewController(detesVC, animated: true)
+        }
     }
     
     func showEditor() {
