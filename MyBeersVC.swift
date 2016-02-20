@@ -104,24 +104,10 @@ class MyBeersVC: UIViewController, NSFetchedResultsControllerDelegate, UITableVi
         return swoppedResultsController
     }()
     
-    // Andrew Bancroft's post saved the day on nil result for sections
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        let controller = (tableView == swopTable) ? swoppedResultsController : watchedResultsController
         
-        if tableView == swopTable {
-            if let sections = swoppedResultsController.sections {
-                let currentSection = sections[section]
-                return currentSection.numberOfObjects
-            }
-            return 0   // no results yet so no sections
-            
-        } else {  // tableView is watchTable
-            if let sections = watchedResultsController.sections {
-                let currentSection = sections[section]
-                return currentSection.numberOfObjects
-            }
-            return 0   // no results yet so no sections
-        }
-        
+        return controller.sections?[section].numberOfObjects ?? 0
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -145,8 +131,15 @@ class MyBeersVC: UIViewController, NSFetchedResultsControllerDelegate, UITableVi
             
             return beerCell
         }
-        
-            // TODO: -- add editable/deletable with swipe
+    }
+     // TODO: -- add editable/deletable by swipe for swop list
+    
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if editingStyle == .Delete && tableView == watchTable {
+            let beer = watchedResultsController.objectAtIndexPath(indexPath) as! Beer
+            sharedContext.deleteObject(beer)
+            CoreDataStackManager.sharedInstance().saveContext()
+        }
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
@@ -167,4 +160,62 @@ class MyBeersVC: UIViewController, NSFetchedResultsControllerDelegate, UITableVi
         let beerEditor = storyboard!.instantiateViewControllerWithIdentifier("BeerEditor") as! BeerEditorVC
         navigationController?.pushViewController(beerEditor, animated: true)
     }
+    
+    // MARK: - Fetched Results Controller Delegate
+    
+    func controllerWillChangeContent(controller: NSFetchedResultsController) {
+        let table = (controller == swoppedResultsController) ? swopTable : watchTable
+        table.beginUpdates()
+    }
+    
+    func controller(controller: NSFetchedResultsController,
+        didChangeSection sectionInfo: NSFetchedResultsSectionInfo,
+        atIndex sectionIndex: Int,
+        forChangeType type: NSFetchedResultsChangeType) {
+            
+            let table = (controller == swoppedResultsController) ? swopTable : watchTable
+            
+            switch type {
+            case .Insert:
+                table.insertSections(NSIndexSet(index: sectionIndex), withRowAnimation: .Fade)
+                
+            case .Delete:
+                table.deleteSections(NSIndexSet(index: sectionIndex), withRowAnimation: .Fade)
+                
+            default:
+                return
+            }
+    }
+    
+    func controller(controller: NSFetchedResultsController,
+        didChangeObject anObject: AnyObject,
+        atIndexPath indexPath: NSIndexPath?,
+        forChangeType type: NSFetchedResultsChangeType,
+        newIndexPath: NSIndexPath?) {
+            
+            let table = (controller == swoppedResultsController) ? swopTable : watchTable
+            
+            switch type {
+            case .Insert:
+                table.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Fade)
+                
+            case .Delete:
+                table.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Fade)
+                
+            case .Update:
+                break
+                
+            case .Move:
+                table.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Fade)
+                table.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Fade)
+            }
+    }
+    
+    func controllerDidChangeContent(controller: NSFetchedResultsController) {
+        
+        let table = (controller == swoppedResultsController) ? swopTable : watchTable
+        table.endUpdates()
+    }
+    
+
 }
