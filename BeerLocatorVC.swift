@@ -23,6 +23,8 @@ class BeerLocatorVC: UIViewController, MKMapViewDelegate {
     @IBOutlet weak var globalMap: MKMapView!
     @IBOutlet weak var orLabel: UILabel!
     
+    let ArchiveRegionKey = "userBeerRegionArchive"
+    
     var newPin = MKPointAnnotation()
     var locDelegate: LocationDelegate!
     var mapTap = UITapGestureRecognizer()
@@ -33,7 +35,7 @@ class BeerLocatorVC: UIViewController, MKMapViewDelegate {
         showBackgroundBeer()
         
         //set map to last region and zoom
-        restoreMapRegion(true)
+        restoreMapRegion(globalMap, archiveString: ArchiveRegionKey, animated: true)
         
         if let coord = oldCoord {
             newPin.coordinate = coord
@@ -48,11 +50,11 @@ class BeerLocatorVC: UIViewController, MKMapViewDelegate {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         //set map to last region and zoom
-        restoreMapRegion(true)
+        restoreMapRegion(globalMap, archiveString: ArchiveRegionKey, animated: true)
     }
     override func viewWillDisappear(animated: Bool) {
         //keep current region and zoom level
-        saveMapRegion()
+        saveMapRegion(globalMap, archiveString: ArchiveRegionKey)
     }
     
     @IBAction func setSave(sender: UIButton) {
@@ -92,7 +94,7 @@ class BeerLocatorVC: UIViewController, MKMapViewDelegate {
         return beerPin
     }
 
-    
+    /*
     // MARK: -- Setting and saving the UI state
     //
     // This code is copied from Udacity's MemoryMap app in the ios-persistence course
@@ -141,6 +143,6 @@ class BeerLocatorVC: UIViewController, MKMapViewDelegate {
         }
     }
 
-    
+    */
     
 }

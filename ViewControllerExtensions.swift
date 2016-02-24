@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MapKit
 
 extension UIViewController {
     
@@ -76,6 +77,51 @@ extension UIViewController {
         
         return keyboardSize.CGRectValue().height
     }
+
+    // MARK: -- Setting and saving the UI state
+    //
+    // This code is adapted from Udacity's MemoryMap app in the ios-persistence course
+    
+    func filePath(archiveName: String) -> String {
+        let manager = NSFileManager.defaultManager()
+        let url = manager.URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first
+        return url!.URLByAppendingPathComponent(archiveName).path!
+    }
+    
+    func saveMapRegion(map: MKMapView, archiveString: String) {
+        
+        // Place the "center" and "span" of the map into a dictionary
+        let dictionary = [
+            "latitude" : map.region.center.latitude,
+            "longitude" : map.region.center.longitude,
+            "latitudeDelta" : map.region.span.latitudeDelta,
+            "longitudeDelta" : map.region.span.longitudeDelta
+        ]
+        
+        // Archive the dictionary into a filePath
+        NSKeyedArchiver.archiveRootObject(dictionary, toFile: filePath(archiveString))
+    }
+    
+    func restoreMapRegion(map: MKMapView, archiveString: String, animated: Bool) {
+        
+        // Try to unarchive a dictionary, and use it to set the map back to its
+        //   previous center and span
+        if let regionDictionary = NSKeyedUnarchiver.unarchiveObjectWithFile(filePath(archiveString)) as? [String : AnyObject] {
+            
+            let longitude = regionDictionary["longitude"] as! CLLocationDegrees
+            let latitude = regionDictionary["latitude"] as! CLLocationDegrees
+            let center = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+            
+            let longitudeDelta = regionDictionary["latitudeDelta"] as! CLLocationDegrees
+            let latitudeDelta = regionDictionary["longitudeDelta"] as! CLLocationDegrees
+            let span = MKCoordinateSpan(latitudeDelta: latitudeDelta, longitudeDelta: longitudeDelta)
+            
+            let savedRegion = MKCoordinateRegion(center: center, span: span)
+            
+            map.setRegion(savedRegion, animated: animated)
+        }
+    }
+    
 
     
 }

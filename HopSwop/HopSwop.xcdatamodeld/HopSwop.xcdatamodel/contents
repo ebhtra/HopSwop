@@ -3,19 +3,21 @@
     <entity name="Beer" representedClassName=".Beer" syncable="YES">
         <attribute name="beerName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="bornOn" optional="YES" attributeType="Boolean" syncable="YES"/>
-        <attribute name="brewDbId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="brewer" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="dbID" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="descrip" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="drinkDate" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="freshDate" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="latitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <attribute name="longitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
-        <attribute name="parseId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="objectId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="owner" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="vessel" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="owner" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="swopBeer" inverseEntity="User" syncable="YES"/>
+        <relationship name="userOwner" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="swopBeer" inverseEntity="User" syncable="YES"/>
         <relationship name="watcher" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="watchBeer" inverseEntity="User" syncable="YES"/>
     </entity>
     <entity name="Message" representedClassName=".Message" syncable="YES">
-        <attribute name="dateSent" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="createdAt" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="objectId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="msgFrom" maxCount="1" deletionRule="Cascade" destinationEntity="User" inverseName="sentMsg" inverseEntity="User" syncable="YES"/>
         <relationship name="msgTo" maxCount="1" deletionRule="Cascade" destinationEntity="User" inverseName="gotMsg" inverseEntity="User" syncable="YES"/>
@@ -25,12 +27,12 @@
         <attribute name="username" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="gotMsg" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Message" inverseName="msgTo" inverseEntity="Message" syncable="YES"/>
         <relationship name="sentMsg" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Message" inverseName="msgFrom" inverseEntity="Message" syncable="YES"/>
-        <relationship name="swopBeer" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Beer" inverseName="owner" inverseEntity="Beer" syncable="YES"/>
+        <relationship name="swopBeer" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Beer" inverseName="userOwner" inverseEntity="Beer" syncable="YES"/>
         <relationship name="watchBeer" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Beer" inverseName="watcher" inverseEntity="Beer" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Beer" positionX="-63" positionY="-18" width="128" height="225"/>
-        <element name="Message" positionX="-54" positionY="45" width="128" height="105"/>
+        <element name="Beer" positionX="-63" positionY="-18" width="128" height="240"/>
+        <element name="Message" positionX="-54" positionY="45" width="128" height="120"/>
         <element name="User" positionX="-54" positionY="36" width="128" height="135"/>
     </elements>
 </model>

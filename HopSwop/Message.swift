@@ -16,8 +16,6 @@ class Message: NSManagedObject {
     @NSManaged var text: String
     @NSManaged var createdAt: NSDate
     @NSManaged var objectId: String
-    @NSManaged var updatedAt: NSDate
-    
     
     override init(entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext?) {
         super.init(entity: entity, insertIntoManagedObjectContext: context)
@@ -29,7 +27,6 @@ class Message: NSManagedObject {
         
         createdAt = dict["createdAt"] as! NSDate
         objectId = dict["objectId"] as! String
-        updatedAt = dict["updatedAt"] as! NSDate
         msgFrom = dict["msgFrom"] as! User
         msgTo = dict["msgTo"] as! User
         text = dict["text"] as! String

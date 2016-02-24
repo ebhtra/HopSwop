@@ -9,7 +9,7 @@
 import UIKit
 import MapKit
 
-class SwopBeerVC: UIViewController {
+class SwopBeerVC: UIViewController, SentMessageDelegate {
     
     @IBOutlet weak var beerLabel: UILabel!
     @IBOutlet weak var brewerLabel: UILabel!
@@ -23,14 +23,21 @@ class SwopBeerVC: UIViewController {
     
     @IBAction func msgButtonClick(sender: UIButton) {
         
-        //present msg screen or msg tab??
+        if beer.userOwner == User.thisUser {
+            edit(beer)
+        } else {
+            sendMsg(beer)
+        }
     }
     
     var beer: Beer!
+    
     var pin = MKPointAnnotation()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        print("made it here")
         
         showBackgroundBeer()
         
@@ -40,9 +47,13 @@ class SwopBeerVC: UIViewController {
         brewerLabel.text = beer.brewer
         vesselLabel.text = beer.vessel
         drinkByLabel.text = beer.bornOn ? "Born on:" : "Drink by:"
-        freshnessLabel.text = beer.drinkDate
-        ownerLabel.text = beer.owner!.username
+        freshnessLabel.text = beer.freshDate
+        ownerLabel.text = beer.userOwner!.username
         notesView.text = beer.descrip
+        
+        if beer.userOwner == User.thisUser {
+            msgButton.setTitle("Edit your beer details", forState: .Normal)
+        }
 
         
     }
@@ -60,7 +71,7 @@ class SwopBeerVC: UIViewController {
         if beerPin == nil {
             
             beerPin = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
-            beerPin!.pinTintColor = msgButton.titleColorForState(.Normal)
+            beerPin!.pinTintColor = AppDelegate.spruce
         } else {
             beerPin!.annotation = annotation
         }
@@ -69,10 +80,37 @@ class SwopBeerVC: UIViewController {
     }
     
     func showLocation() {
+        
         pin.coordinate = CLLocationCoordinate2DMake(beer.latitude, beer.longitude)
         beerLocMap.addAnnotation(pin)
     }
+    
     func zoomToBeer() {
+        
         beerLocMap.setRegion(MKCoordinateRegion(center: pin.coordinate, span: MKCoordinateSpanMake(0.01, 0.01)), animated: true)
     }
+    
+    func edit(beer: Beer) {
+        
+        let editor = storyboard?.instantiateViewControllerWithIdentifier("BeerEditor") as! BeerEditorVC
+        editor.currentBeer = beer
+        editor.editingBeer = true
+        
+        navigationController?.pushViewController(editor, animated: true)
+    }
+    
+    func sendMsg(beer: Beer) {
+        
+        let messageWriter = storyboard?.instantiateViewControllerWithIdentifier("SendMessage") as! SendMessageVC
+        messageWriter.toUser = beer.userOwner!
+        messageWriter.sentMsgDelegate = self
+        
+        navigationController?.pushViewController(messageWriter, animated: true)
+    }
+    
+    // MessageWasSentDelegate protocol:
+    func msgWasSent() {
+        // popVC or stay here?
+    }
+    
 }

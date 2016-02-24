@@ -16,11 +16,14 @@ import FBSDKCoreKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    
+    // forest green color used in app scheme
+    static let spruce = UIColor(red: 0.45, green: 0.363873, blue:  0.202817, alpha: 1)
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         //link app to Parse.com
-    Parse.setApplicationId("QqljByEk29sl0AlCog1B93iATtZnD53JUCSwKGcL", clientKey: "1A1nVdUIVN83LML5s8xB5BOFs0xwP544kEznS2gh")
+        Parse.setApplicationId("QqljByEk29sl0AlCog1B93iATtZnD53JUCSwKGcL", clientKey: "1A1nVdUIVN83LML5s8xB5BOFs0xwP544kEznS2gh")
         
         return FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
     }

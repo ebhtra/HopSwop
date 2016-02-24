@@ -17,7 +17,7 @@ class ParseClient {
     
     
     // add a new object to Parse
-    func postToParseTask(method: String, parameters: [String: AnyObject], completionHandler: (success: Bool, errorString: String?) -> Void) -> NSURLSessionDataTask {
+    func postToParseTask(method: String, parameters: [String: AnyObject], completionHandler: (success: Bool, result: AnyObject?, errorString: String?) -> Void) -> NSURLSessionDataTask {
         
         let request = NSMutableURLRequest(URL: NSURL(string: Constants.BaseParseRequest + method)!)
         request.HTTPMethod = "POST"
@@ -32,16 +32,16 @@ class ParseClient {
         let session = NSURLSession.sharedSession()
         let task = session.dataTaskWithRequest(request) { data, response, error in
             if error != nil {
-                completionHandler(success: false, errorString: error!.localizedDescription)
+                completionHandler(success: false, result: response, errorString: error!.localizedDescription)
             } else {
                 
                 // parse the results
                 let results = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments)) as! NSDictionary
                 // use presence of "createdAt" key as a test of success
                 if let _ = results["createdAt"] as? String {
-                    completionHandler(success: true, errorString: nil)
+                    completionHandler(success: true, result: results, errorString: nil)
                 } else {
-                    completionHandler(success: false, errorString: "Could not create the Object in Parse.")
+                    completionHandler(success: false, result: nil, errorString: "Could not create the Object in Parse.")
                 }
             }
         }

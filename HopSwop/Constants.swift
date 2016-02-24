@@ -40,12 +40,20 @@ extension ParseClient {
     struct Constants {
         static let BaseParseRequest = "https://api.parse.com/1/classes/"
         static let ParseRESTkey = "z0oWLRSXGxiGa6KdU64DV0lrWKa3SWrpeIvMkvJl"
+        
         static let ParseAppID = "QqljByEk29sl0AlCog1B93iATtZnD53JUCSwKGcL"
     }
     struct Methods {
         static let BeerObj = "Beer/"
         static let MsgObj = "Message/"
         static let UserObj = "_User/"
+    }
+
+    struct MsgKeys {
+        static let MsgTo = "msgTo"
+        static let MsgFrom = "msgFrom"
+        static let Text = "msgText"
+        static let IsNew = "isNew"
     }
     // MARK: - Parameter Keys
     struct ParameterKeys {

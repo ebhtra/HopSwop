@@ -29,6 +29,8 @@
 		E423E51C1C6A68D500C342B3 /* BeerLocatorVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E423E51B1C6A68D500C342B3 /* BeerLocatorVC.swift */; };
 		E423E51E1C6CE66E00C342B3 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = E423E51D1C6CE66E00C342B3 /* User.swift */; };
 		E42C1E601C7375FC0072DB6E /* SwopBeerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E42C1E5F1C7375FC0072DB6E /* SwopBeerVC.swift */; };
+		E42C1E621C7A11730072DB6E /* MessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E42C1E611C7A11730072DB6E /* MessageCell.swift */; };
+		E42C1E641C7A407A0072DB6E /* MessageDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E42C1E631C7A407A0072DB6E /* MessageDetailVC.swift */; };
 		E43F9F4A1C5A6C0B006CD370 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = E43F9F491C5A6C0B006CD370 /* CoreDataStack.swift */; };
 		E43F9F541C5B3C4E006CD370 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E43F9F521C5B3C4E006CD370 /* FBSDKCoreKit.framework */; };
 		E43F9F551C5B3C4E006CD370 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E43F9F531C5B3C4E006CD370 /* FBSDKLoginKit.framework */; };
@@ -46,6 +48,8 @@
 		E43F9F711C626376006CD370 /* ParseConvenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = E43F9F701C626376006CD370 /* ParseConvenience.swift */; };
 		E43F9F731C6354BF006CD370 /* ResetPWViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E43F9F721C6354BE006CD370 /* ResetPWViewController.swift */; };
 		E43F9F751C6356FC006CD370 /* BeerLoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E43F9F741C6356FC006CD370 /* BeerLoginController.swift */; };
+		E47C09401C7E235E00026B51 /* ParseBeer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E47C093F1C7E235E00026B51 /* ParseBeer.swift */; };
+		E4AE1E111C7BEF180021A46B /* SendMessageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4AE1E101C7BEF180021A46B /* SendMessageVC.swift */; };
 		E4C954AB1C6EFFE4005C71F2 /* BeerDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4C954AA1C6EFFE3005C71F2 /* BeerDetailVC.swift */; };
 		E4DE8F871C64C9BB0098185E /* MyMessagesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DE8F861C64C9BB0098185E /* MyMessagesVC.swift */; };
 		E4DE8F891C6539090098185E /* BeerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DE8F881C6539090098185E /* BeerCell.swift */; };
@@ -79,6 +83,8 @@
 		E423E51B1C6A68D500C342B3 /* BeerLocatorVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeerLocatorVC.swift; sourceTree = "<group>"; };
 		E423E51D1C6CE66E00C342B3 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		E42C1E5F1C7375FC0072DB6E /* SwopBeerVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwopBeerVC.swift; path = HopSwop/SwopBeerVC.swift; sourceTree = "<group>"; };
+		E42C1E611C7A11730072DB6E /* MessageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageCell.swift; sourceTree = "<group>"; };
+		E42C1E631C7A407A0072DB6E /* MessageDetailVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MessageDetailVC.swift; path = HopSwop/MessageDetailVC.swift; sourceTree = "<group>"; };
 		E43F9F491C5A6C0B006CD370 /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		E43F9F4F1C5B3221006CD370 /* HopSwop-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "HopSwop-Bridging-Header.h"; sourceTree = "<group>"; };
 		E43F9F521C5B3C4E006CD370 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
@@ -97,9 +103,11 @@
 		E43F9F701C626376006CD370 /* ParseConvenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseConvenience.swift; sourceTree = "<group>"; };
 		E43F9F721C6354BE006CD370 /* ResetPWViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ResetPWViewController.swift; path = HopSwop/ResetPWViewController.swift; sourceTree = "<group>"; };
 		E43F9F741C6356FC006CD370 /* BeerLoginController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BeerLoginController.swift; path = HopSwop/BeerLoginController.swift; sourceTree = "<group>"; };
+		E47C093F1C7E235E00026B51 /* ParseBeer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseBeer.swift; sourceTree = "<group>"; };
+		E4AE1E101C7BEF180021A46B /* SendMessageVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SendMessageVC.swift; path = HopSwop/SendMessageVC.swift; sourceTree = "<group>"; };
 		E4C954AA1C6EFFE3005C71F2 /* BeerDetailVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeerDetailVC.swift; sourceTree = "<group>"; };
 		E4DE8F861C64C9BB0098185E /* MyMessagesVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MyMessagesVC.swift; path = HopSwop/MyMessagesVC.swift; sourceTree = "<group>"; };
-		E4DE8F881C6539090098185E /* BeerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeerCell.swift; sourceTree = "<group>"; };
+		E4DE8F881C6539090098185E /* BeerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BeerCell.swift; path = ../BeerCell.swift; sourceTree = "<group>"; };
 		E4DE8F8A1C6677040098185E /* BeerEditorVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeerEditorVC.swift; sourceTree = "<group>"; };
 		E4DE8F8C1C6759840098185E /* HalfBeer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HalfBeer.swift; sourceTree = "<group>"; };
 		E4DE8F8E1C6764810098185E /* BreweryDbConvenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BreweryDbConvenience.swift; path = ../BreweryDbConvenience.swift; sourceTree = "<group>"; };
@@ -137,7 +145,6 @@
 				E4C954AA1C6EFFE3005C71F2 /* BeerDetailVC.swift */,
 				E423E51B1C6A68D500C342B3 /* BeerLocatorVC.swift */,
 				E4DE8F8A1C6677040098185E /* BeerEditorVC.swift */,
-				E4DE8F881C6539090098185E /* BeerCell.swift */,
 				E43F9F6A1C624EE7006CD370 /* BeerListVC.swift */,
 				E43F9F6C1C624F1C006CD370 /* BeerMapVC.swift */,
 				E43F9F661C621E67006CD370 /* MyBeersVC.swift */,
@@ -147,6 +154,8 @@
 				E43F9F581C5BF50A006CD370 /* SignupViewController.swift */,
 				E42C1E5F1C7375FC0072DB6E /* SwopBeerVC.swift */,
 				E43F9F741C6356FC006CD370 /* BeerLoginController.swift */,
+				E42C1E631C7A407A0072DB6E /* MessageDetailVC.swift */,
+				E4AE1E101C7BEF180021A46B /* SendMessageVC.swift */,
 				E43F9F561C5BD836006CD370 /* ViewControllerExtensions.swift */,
 				E41D6E111C5943F7005DE6AA /* HopSwop */,
 				E41D6E101C5943F7005DE6AA /* Products */,
@@ -166,6 +175,7 @@
 			isa = PBXGroup;
 			children = (
 				E41D6E161C5943F7005DE6AA /* Main.storyboard */,
+				E42C1E611C7A11730072DB6E /* MessageCell.swift */,
 				E41D6E121C5943F7005DE6AA /* AppDelegate.swift */,
 				E43F9F491C5A6C0B006CD370 /* CoreDataStack.swift */,
 				E43F9F601C613FE7006CD370 /* Constants.swift */,
@@ -174,6 +184,8 @@
 				E43F9F701C626376006CD370 /* ParseConvenience.swift */,
 				E43F9F5E1C613E11006CD370 /* ParseClient.swift */,
 				E43F9F6E1C625A85006CD370 /* BeerList.swift */,
+				E47C093F1C7E235E00026B51 /* ParseBeer.swift */,
+				E4DE8F881C6539090098185E /* BeerCell.swift */,
 				E43F9F5A1C612C48006CD370 /* Beer.swift */,
 				E423E51D1C6CE66E00C342B3 /* User.swift */,
 				E4DE8F8C1C6759840098185E /* HalfBeer.swift */,
@@ -287,12 +299,16 @@
 				E423E51E1C6CE66E00C342B3 /* User.swift in Sources */,
 				E43F9F6F1C625A85006CD370 /* BeerList.swift in Sources */,
 				E43F9F671C621E67006CD370 /* MyBeersVC.swift in Sources */,
+				E42C1E641C7A407A0072DB6E /* MessageDetailVC.swift in Sources */,
 				E42C1E601C7375FC0072DB6E /* SwopBeerVC.swift in Sources */,
 				E43F9F6D1C624F1C006CD370 /* BeerMapVC.swift in Sources */,
+				E4AE1E111C7BEF180021A46B /* SendMessageVC.swift in Sources */,
 				E4DE8F8B1C6677040098185E /* BeerEditorVC.swift in Sources */,
 				E43F9F751C6356FC006CD370 /* BeerLoginController.swift in Sources */,
+				E47C09401C7E235E00026B51 /* ParseBeer.swift in Sources */,
 				E41D6E1B1C5943F7005DE6AA /* HopSwop.xcdatamodeld in Sources */,
 				E4DE8F8F1C6764810098185E /* BreweryDbConvenience.swift in Sources */,
+				E42C1E621C7A11730072DB6E /* MessageCell.swift in Sources */,
 				E41D6E151C5943F7005DE6AA /* LoginViewController.swift in Sources */,
 				E41D6E131C5943F7005DE6AA /* AppDelegate.swift in Sources */,
 				E43F9F5F1C613E11006CD370 /* ParseClient.swift in Sources */,

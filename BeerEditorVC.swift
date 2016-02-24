@@ -26,6 +26,7 @@ class BeerEditorVC: BeerLoginController, UITableViewDelegate, UITableViewDataSou
     @IBOutlet weak var watchlistButton: UIButton!
     @IBOutlet weak var beerNotes: UITextView!
     
+    var editingBeer = false  // default setting is that a new beer is being created
     var currentBeer: Beer?  // in case this VC is used later for editing existing Beers
     var currentHalfBeer: HalfBeer?  // since searchBar is returning results in this form
     
@@ -45,6 +46,19 @@ class BeerEditorVC: BeerLoginController, UITableViewDelegate, UITableViewDataSou
         super.viewDidLoad()
         
         showBackgroundBeer()
+        
+        if let beer = currentBeer {
+            fillBeer(beer)
+        }
+        
+        if editingBeer {
+            searcher.hidden = true
+            watchlistButton.hidden = true
+            homebrewSwitch.enabled = false
+            currentBeerBrewer.hidden = false
+            currentBeerDisplay.hidden = false
+        }
+        
         isHomeBrew = homebrewSwitch.on
         drinkBy = beerDateSwitch.on
         
@@ -58,6 +72,24 @@ class BeerEditorVC: BeerLoginController, UITableViewDelegate, UITableViewDataSou
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         unsubscribeFromKeyboardNotifications()
+    }
+    
+    func fillBeer(oldBeer: Beer) {
+        homebrewSwitch.setOn(oldBeer.dbID == "", animated: true)
+        currentBeerBrewer.text = oldBeer.brewer
+        currentBeerDisplay.text = oldBeer.beerName
+        beerDateSwitch.setOn(!oldBeer.bornOn, animated: true)
+        let date = oldBeer.freshDate.componentsSeparatedByString("-")
+        beerMonth.text = date[0]
+        beerDay.text = date[1]
+        beerYear.text = date[2]
+        beerNotes.text = oldBeer.descrip
+        wasEdited = true
+        beerAt = CLLocationCoordinate2DMake(oldBeer.latitude, oldBeer.longitude)
+        beerLocButton.setTitle("Change location", forState: .Normal)
+        vesselType = pickerArray.indexOf(oldBeer.vessel) ?? 0
+        containerPicker.selectRow(vesselType, inComponent: 0, animated: true)
+        
     }
 
     @IBAction func beerLocButtonTap(sender: UIButton) {
@@ -76,28 +108,44 @@ class BeerEditorVC: BeerLoginController, UITableViewDelegate, UITableViewDataSou
         
         if validateSwopFields() {
             
-            var swopDict: [String: AnyObject?]
-            swopDict = [Beer.Keys.Lat: beerAt!.latitude,
-                       Beer.Keys.Lon: beerAt!.longitude,
-                       Beer.Keys.Name: currentBeerDisplay.text!,
-                       Beer.Keys.Brewer: currentBeerBrewer.text!,
-                       Beer.Keys.Vessel: pickerArray[vesselType],
-                       Beer.Keys.BornOn: !beerDateSwitch.on,
-                       Beer.Keys.DrinkDate: tryForDate(),
-                       Beer.Keys.Descrip: tryForNotes(),
-                       Beer.Keys.BrewDBID: currentHalfBeer?.id ?? "",
-                       Beer.Keys.ParseID: currentBeer?.parseId ?? "", // keep same ID if editing existing
-                       Beer.Keys.Watcher: nil,
-                       Beer.Keys.Owner: User.thisUser]
-            print(swopDict)
-            let _ = Beer(dict: swopDict, context: sharedContext)
+            var swopDict = [String: AnyObject]()
             
+            swopDict[Beer.Keys.Lat] = beerAt!.latitude
+            swopDict[Beer.Keys.Lon] = beerAt!.longitude
+            swopDict[Beer.Keys.Name] = currentBeerDisplay.text!
+            swopDict[Beer.Keys.Brewer] = currentBeerBrewer.text!
+            swopDict[Beer.Keys.Vessel] = pickerArray[vesselType]
+            swopDict[Beer.Keys.BornOn] = !beerDateSwitch.on
+            swopDict[Beer.Keys.DrinkDate] = tryForDate()
+            swopDict[Beer.Keys.Descrip] = tryForNotes()
+            swopDict[Beer.Keys.BrewDBID] = currentBeer?.dbID ?? currentHalfBeer!.id ?? "New Beer"
+            
+            swopDict[Beer.Keys.ParseOwner] = PFUser.currentUser()!.objectId!
+            
+            if !editingBeer {  // so this is a new beer listing
+            
+                ParseClient.sharedInstance.postBeer(swopDict) { success, error in
+                    if success {
+                      
+                        print("yessir")
+                    } else {
+                    
+                        print("bigtime error-- \(error)")
+                    }
+                }
+            } else {  // so this is an existing listing that needs to be updated on parse
+            
+                swopDict[Beer.Keys.ParseID] = currentBeer?.dbID
+                
+                ParseClient.sharedInstance.updateSwop(swopDict) { success, error in
+                    if success {
+                        self.displayGenericAlert("Success--", message: "Your beer details were updated.")
+                    } else {
+                        self.displayGenericAlert("Error--", message: error!)
+                    }
+                }
+            }
             navigationController!.popViewControllerAnimated(true)
-            
-            CoreDataStackManager.sharedInstance().saveContext()
-            
-        } else {
-            print("booo")
         }
     }
     
@@ -106,7 +154,7 @@ class BeerEditorVC: BeerLoginController, UITableViewDelegate, UITableViewDataSou
         if currentBeerDisplay.text! == "" || currentBeerBrewer.text! == "" {
             displayGenericAlert("Please enter a beer name and brewer.", message: "")
         } else {
-            var watchDict = [String: AnyObject?]()
+            var watchDict = [String: AnyObject]()
             watchDict[Beer.Keys.Lat] = 500.0
             watchDict[Beer.Keys.Lon] = 500.0
             watchDict[Beer.Keys.Name] = currentBeerDisplay.text!
@@ -117,14 +165,13 @@ class BeerEditorVC: BeerLoginController, UITableViewDelegate, UITableViewDataSou
             watchDict[Beer.Keys.Descrip] = getWatcherNotes()
             watchDict[Beer.Keys.BrewDBID] = currentHalfBeer?.id ?? ""
             watchDict[Beer.Keys.ParseID] = ""
-            watchDict[Beer.Keys.Watcher] = User.thisUser
-            watchDict[Beer.Keys.Owner] = nil
             
-            let _ = Beer(dict: watchDict, context: sharedContext)
-            
-            navigationController!.popViewControllerAnimated(true)
+            let newBeer = Beer(dict: watchDict, context: sharedContext)
+            newBeer.watcher = User.thisUser
             
             CoreDataStackManager.sharedInstance().saveContext()
+            
+            navigationController!.popViewControllerAnimated(true)
         }
     }
     

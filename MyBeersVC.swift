@@ -25,28 +25,8 @@ class MyBeersVC: UIViewController, NSFetchedResultsControllerDelegate, UITableVi
     override func viewDidLoad() {
         
         showBackgroundBeer()
-        /*
-        var newBeer = [String: AnyObject]()
-        newBeer["notInDB"] = false
-        newBeer["descrip"] = "This is a beer I made at home.  To test this app."
-        newBeer["dbID"] = 999999
-        
-        ParseClient.sharedInstance.deleteFromParseTask(ParseClient.Methods.BeerObj, objectId: beerToDeleteId) { result, error in
-            
-            if error != nil {
-                print(error?.localizedDescription)
-            } else {
-                print(result)
-            }
-        
-        }
-        
-       // ParseClient.sharedInstance.postToParseTask(ParseClient.Methods.BeerObj, parameters: newBeer) { success, error in
-        //
-         //   if success {print("yes! beer was added")} else {print(error)}
-       // }
-       */
     }
+    
     override func viewWillAppear(animated: Bool) {
         do {
             try watchedResultsController.performFetch()
@@ -93,7 +73,7 @@ class MyBeersVC: UIViewController, NSFetchedResultsControllerDelegate, UITableVi
         let fetchRequest = NSFetchRequest(entityName: "Beer")
         
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "beerName", ascending: true)]
-        fetchRequest.predicate = NSPredicate(format: "owner == %@", User.thisUser)
+        fetchRequest.predicate = NSPredicate(format: "userOwner == %@", User.thisUser)
         
         let swoppedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
             managedObjectContext: self.sharedContext,
@@ -103,6 +83,11 @@ class MyBeersVC: UIViewController, NSFetchedResultsControllerDelegate, UITableVi
         swoppedResultsController.delegate = self
         return swoppedResultsController
     }()
+    
+    func showEditor() {
+        let beerEditor = storyboard!.instantiateViewControllerWithIdentifier("BeerEditor") as! BeerEditorVC
+        navigationController?.pushViewController(beerEditor, animated: true)
+    }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let controller = (tableView == swopTable) ? swoppedResultsController : watchedResultsController
@@ -115,7 +100,7 @@ class MyBeersVC: UIViewController, NSFetchedResultsControllerDelegate, UITableVi
         if tableView == swopTable {
             let swopCell = tableView.dequeueReusableCellWithIdentifier("mySwopCell")!
             let beer = swoppedResultsController.objectAtIndexPath(indexPath) as! Beer
-            print("made it to here")
+            
             swopCell.textLabel?.text = beer.beerName
             swopCell.detailTextLabel?.text = beer.brewer
             
@@ -125,14 +110,14 @@ class MyBeersVC: UIViewController, NSFetchedResultsControllerDelegate, UITableVi
             
             let beerCell = tableView.dequeueReusableCellWithIdentifier("basicCell")!
             let beer = watchedResultsController.objectAtIndexPath(indexPath) as! Beer
-            print("oh yeah?? made it to here")
+           
             beerCell.textLabel?.text = beer.beerName
             beerCell.detailTextLabel?.text = beer.brewer
             
             return beerCell
         }
     }
-     // TODO: -- add editable/deletable by swipe for swop list
+     // TODO: -- add editable/deletable by swipe for swop list, and update to Parse accordingly
     
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete && tableView == watchTable {
@@ -152,13 +137,9 @@ class MyBeersVC: UIViewController, NSFetchedResultsControllerDelegate, UITableVi
         if tableView == swopTable {
             let detesVC = storyboard?.instantiateViewControllerWithIdentifier("SwopperScene") as! SwopBeerVC
             detesVC.beer = swoppedResultsController.objectAtIndexPath(indexPath) as! Beer
+            
             navigationController?.pushViewController(detesVC, animated: true)
         }
-    }
-    
-    func showEditor() {
-        let beerEditor = storyboard!.instantiateViewControllerWithIdentifier("BeerEditor") as! BeerEditorVC
-        navigationController?.pushViewController(beerEditor, animated: true)
     }
     
     // MARK: - Fetched Results Controller Delegate

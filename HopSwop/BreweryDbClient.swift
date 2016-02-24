@@ -26,7 +26,7 @@ class BreweryDbClient {
         
         // Add in the breweryDB API Key
         mutableParameters["key"] = Constants.ApiKey
-        /*
+        
         // Substitute the id parameter into the resource
         if resource.rangeOfString(":beerId") != nil {
             assert(parameters[Keys.ID] != nil)
@@ -34,7 +34,7 @@ class BreweryDbClient {
             mutableResource = mutableResource.stringByReplacingOccurrencesOfString(":beerId", withString: "\(parameters[Keys.ID]!)")
             mutableParameters.removeValueForKey(Keys.ID)
         }
-        */
+        
         
         let urlString = Constants.BaseUrl + mutableResource + BreweryDbClient.escapedParameters(mutableParameters)
         let url = NSURL(string: urlString)!

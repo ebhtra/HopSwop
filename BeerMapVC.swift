@@ -13,6 +13,8 @@ import CoreData
 
 class BeerMapVC: UIViewController, NSFetchedResultsControllerDelegate, MKMapViewDelegate {
     
+    let ArchiveRegionKey = "allBeerRegionArchive"
+    
     var annotations = [MKPointAnnotation]()
     
     @IBOutlet weak var beerMap: MKMapView!
@@ -20,24 +22,37 @@ class BeerMapVC: UIViewController, NSFetchedResultsControllerDelegate, MKMapView
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //set map to last region and zoom
+        restoreMapRegion(beerMap, archiveString: ArchiveRegionKey, animated: true)
         
-        // store a batch of students from the Parse API and load them into map
-       // ParseClient.sharedInstance.refreshBeers() { success in
-        //    if success {
-        //        self.loadPins()
-       //     }
-      //  }
+        // store a batch of beers from the Parse API and load them into map
+        ParseClient.sharedInstance.refreshBeers() { success in
+            if success {
+                dispatch_async(dispatch_get_main_queue()) { _ in
+                    self.loadPins()
+                }
+            }
+        }
     }
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        
         let button = parentViewController?.navigationItem.rightBarButtonItem
         button!.target = self
         button?.action = "loadPins"
+        
+        restoreMapRegion(beerMap, archiveString: ArchiveRegionKey, animated: true)
     }
+    
+    override func viewWillDisappear(animated: Bool) {
+        //keep current region and zoom level
+        saveMapRegion(beerMap, archiveString: ArchiveRegionKey)
+    }
+    
     var sharedContext: NSManagedObjectContext {
         return CoreDataStackManager.sharedInstance().managedObjectContext
     }
-    
+    /*
     lazy var fetchedResultsController: NSFetchedResultsController = {
         
         let fetchRequest = NSFetchRequest(entityName: "Beer")
@@ -52,7 +67,7 @@ class BeerMapVC: UIViewController, NSFetchedResultsControllerDelegate, MKMapView
         return fetchedResultsController
         
     }()
-
+*/
     func loadPins() {
         // begin by removing old pins
         let pinList = beerMap.annotations
@@ -71,12 +86,55 @@ class BeerMapVC: UIViewController, NSFetchedResultsControllerDelegate, MKMapView
             //      title, and subtitle properties
             let annotation = MKPointAnnotation()
             annotation.coordinate = coordinate
+            annotation.title = beer.beerName
+            annotation.subtitle = beer.brewer
             
             // Add to the array of annotations
             annotations.append(annotation)
         }
         // When the array is complete,  add the annotations to the map.
         beerMap.addAnnotations(annotations)
+    }
+    
+    // MARK: - MKMapViewDelegate
+    
+    // Tack on a right callout accessory view for each annotation.
+    //      This is based on the Udacity "Pin Sample" app:
+    
+    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
+        
+        let reuseId = "pin"
+        
+        var pinView = mapView.dequeueReusableAnnotationViewWithIdentifier(reuseId) as? MKPinAnnotationView
+        
+        if pinView == nil {
+            pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
+            pinView!.canShowCallout = true
+            pinView!.pinTintColor = AppDelegate.spruce
+            pinView!.rightCalloutAccessoryView = UIButton(type: .DetailDisclosure)
+        }
+        else {
+            pinView!.annotation = annotation
+        }
+        
+        return pinView
+    }
+    
+    // delegate method called upon user tapping accessory view,
+    //    pushing a SwopBeerVC where user can see beer details and contact owner
+    func mapView(mapView: MKMapView, annotationView: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        
+        if control == annotationView.rightCalloutAccessoryView {
+            
+            let ind = annotations.indexOf(annotationView.annotation as! MKPointAnnotation)
+            
+            let chosenBeer = BeerList.menu[ind!]
+            
+            let detesVC = storyboard?.instantiateViewControllerWithIdentifier("SwopperScene") as! SwopBeerVC
+            detesVC.beer = chosenBeer
+            
+            navigationController?.pushViewController(detesVC, animated: true)
+        }
     }
     
 
