@@ -25,21 +25,15 @@ class BeerMapVC: UIViewController, NSFetchedResultsControllerDelegate, MKMapView
         //set map to last region and zoom
         restoreMapRegion(beerMap, archiveString: ArchiveRegionKey, animated: true)
         
-        // store a batch of beers from the Parse API and load them into map
-        ParseClient.sharedInstance.refreshBeers() { success in
-            if success {
-                dispatch_async(dispatch_get_main_queue()) { _ in
-                    self.loadPins()
-                }
-            }
-        }
+        topOffBeers()
     }
+    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
         let button = parentViewController?.navigationItem.rightBarButtonItem
         button!.target = self
-        button?.action = "loadPins"
+        button?.action = "topOffBeers"
         
         restoreMapRegion(beerMap, archiveString: ArchiveRegionKey, animated: true)
     }
@@ -52,10 +46,10 @@ class BeerMapVC: UIViewController, NSFetchedResultsControllerDelegate, MKMapView
     var sharedContext: NSManagedObjectContext {
         return CoreDataStackManager.sharedInstance().managedObjectContext
     }
-    /*
+    
     lazy var fetchedResultsController: NSFetchedResultsController = {
         
-        let fetchRequest = NSFetchRequest(entityName: "Beer")
+        let fetchRequest = NSFetchRequest(entityName: "Beers")
         
         fetchRequest.sortDescriptors = []
         
@@ -67,7 +61,20 @@ class BeerMapVC: UIViewController, NSFetchedResultsControllerDelegate, MKMapView
         return fetchedResultsController
         
     }()
-*/
+
+    
+    func topOffBeers() {
+        
+        // store a batch of beers from the Parse API and load them into map
+        ParseClient.sharedInstance.refreshBeers() { success in
+            if success {
+                dispatch_async(dispatch_get_main_queue()) { _ in
+                    self.loadPins()
+                }
+            }
+        }
+    }
+    
     func loadPins() {
         // begin by removing old pins
         let pinList = beerMap.annotations
@@ -98,7 +105,8 @@ class BeerMapVC: UIViewController, NSFetchedResultsControllerDelegate, MKMapView
     
     // MARK: - MKMapViewDelegate
     
-    // Tack on a right callout accessory view for each annotation.
+    // Create an accessory view to display Beer name and brewer upon pin tap.
+    //    User can then tap the accessory view to see more details and send msg to the owner.
     //      This is based on the Udacity "Pin Sample" app:
     
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {

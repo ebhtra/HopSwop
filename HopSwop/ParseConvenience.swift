@@ -107,7 +107,7 @@ extension ParseClient {
     
     func getUsernameFromId(userParseId: String, completion: (name: String?, errorString: String?) -> Void) {
         
-        ParseClient.sharedInstance.getFromParseTask(ParseClient.Methods.UserObj, parameters: [Beer.Keys.ParseOwner: userParseId]) { results, nsErr in
+        ParseClient.sharedInstance.getFromParseTask(ParseClient.Methods.UserObj + userParseId, parameters: [:]) { results, nsErr in
             if nsErr != nil {
                 completion(name: nil, errorString: nsErr!.localizedDescription)
                 
