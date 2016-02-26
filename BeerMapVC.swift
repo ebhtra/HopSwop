@@ -22,6 +22,8 @@ class BeerMapVC: UIViewController, NSFetchedResultsControllerDelegate, MKMapView
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        print("number of objects in sharedContext = \(sharedContext.registeredObjects.count)")
+        
         //set map to last region and zoom
         restoreMapRegion(beerMap, archiveString: ArchiveRegionKey, animated: true)
         
@@ -46,6 +48,9 @@ class BeerMapVC: UIViewController, NSFetchedResultsControllerDelegate, MKMapView
     var sharedContext: NSManagedObjectContext {
         return CoreDataStackManager.sharedInstance().managedObjectContext
     }
+    var tempContext: NSManagedObjectContext {
+        return CoreDataStackManager.sharedInstance().tempContext
+    }
     
     lazy var fetchedResultsController: NSFetchedResultsController = {
         
@@ -54,12 +59,11 @@ class BeerMapVC: UIViewController, NSFetchedResultsControllerDelegate, MKMapView
         fetchRequest.sortDescriptors = []
         
         let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
-            managedObjectContext: self.sharedContext,
+            managedObjectContext: self.tempContext,
             sectionNameKeyPath: nil,
             cacheName: nil)
         
         return fetchedResultsController
-        
     }()
 
     
@@ -73,9 +77,13 @@ class BeerMapVC: UIViewController, NSFetchedResultsControllerDelegate, MKMapView
                 }
             }
         }
+        print("number of objects in sharedContext = \(sharedContext.registeredObjects.count)")
+        print(sharedContext.registeredObjects)
+        print("number of objects in tempContext = \(tempContext.registeredObjects.count)")
     }
     
     func loadPins() {
+        print("about to load pins")
         // begin by removing old pins
         let pinList = beerMap.annotations
         beerMap.removeAnnotations(pinList)

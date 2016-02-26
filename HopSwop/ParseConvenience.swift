@@ -24,23 +24,35 @@ extension ParseClient {
             } else {
                 // An array of beers was returned from Parse. Store each one as a Beer in BeerList.swift
                 if let results = jsonResult.valueForKey("results") as? [[String: AnyObject]] {
-                    print(results)
-                    BeerList.menu = [Beer]()
-                    for dict in results {
-                        let newBeer = Beer(dict: dict, context: self.sharedContext)
-                        newBeer.objectId = dict[Beer.Keys.ParseID] as? String
-                        newBeer.owner = dict[Beer.Keys.ParseOwner] as? String
-                        
-                        self.getUsernameFromId(newBeer.owner!) { name, error in
-                            if let newName = name {
-                                newBeer.userOwner = User(dict: [User.Keys.Username: newName, User.Keys.ParseID: newBeer.owner!], context: self.sharedContext)
-                            } else {
-                                print("massive error--\(error)")
+                    
+                    // init Beers on main queue since that's where MOC's exist
+                    self.sharedContext.performBlockAndWait() {
+                        BeerList.menu = [Beer]()
+                        for dict in results {
+                            let owner = dict["owner"] as! String
+                            if owner != User.thisUser.parseId { // so it's not the user's beer
+                                let newBeer = Beer(dict: dict, context: self.tempContext)
+                                newBeer.objectId = dict[Beer.Keys.ParseID] as? String
+                                newBeer.owner = dict[Beer.Keys.ParseOwner] as? String
+                                self.getUsernameFromId(newBeer.owner!) { name, error in
+                                    if let newName = name {
+                                        dispatch_async(dispatch_get_main_queue()) {
+                                            newBeer.userOwner = User(dict: [User.Keys.Username: newName, User.Keys.ParseID: newBeer.owner!], context: self.tempContext)
+                                        }
+                                    } else {
+                                        print("massive error--\(error)")
+                                    }
+                                }
+                                BeerList.menu.append(newBeer)
                             }
                         }
-                        BeerList.menu.append(newBeer)
+                        CoreDataStackManager.sharedInstance().saveContext()
                     }
                     completion(success: true)
+                    
+                } else {
+                    print("no 'results' field was returned from Parse")
+                    completion(success: false)
                 }
             }
         }
@@ -62,6 +74,7 @@ extension ParseClient {
             
             if success {
                 print(result)
+                completion(success: true, errorString: nil)
             } else {
                 print(error)
             }
@@ -101,6 +114,7 @@ extension ParseClient {
                 print(nsErr!.localizedDescription)
             } else {
                 print(results)
+               // CoreDataStackManager.sharedInstance().saveContext()
             }
         }
     }
@@ -112,7 +126,7 @@ extension ParseClient {
                 completion(name: nil, errorString: nsErr!.localizedDescription)
                 
             } else {
-                print("user search task results = \(results)")
+                //print("user search task results = \(results)")
                 let user = results[User.Keys.Username] as? String
                 completion(name: user, errorString: nil)
             }

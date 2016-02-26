@@ -9,6 +9,6 @@
 import Foundation
 
 struct BeerList {
-    // list of all beers currently for swop
+    // temporary list of all beers currently for swop
     static var menu = [Beer]()
 }

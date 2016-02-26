@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 import MapKit
 
-class Beer: NSManagedObject, MKAnnotation {
+class Beer: NSManagedObject {
     
     struct Keys {
         
@@ -47,7 +47,7 @@ class Beer: NSManagedObject, MKAnnotation {
     
     
     
-    // MKMapView will not add MKAnnotations from fetched CoreData Pins without a coordinate getter:
+    // MKMapView will not add MKAnnotations from fetched CoreData Beers without a coordinate getter:
     var coordinate: CLLocationCoordinate2D {
         get {
             return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)

@@ -29,16 +29,16 @@ class SendMessageVC: BeerLoginController {
             ParseClient.sharedInstance.postMessage(toUser, msg: messageBody.text) { success, error in
                 
                 if let err = error {
-                    
+                    print("dang")
                     self.displayGenericAlert("Your message could not be sent.", message: err)
                     
                 } else {
-                    
-                    self.displayGenericAlert("Message was sent.", message: "")
-                    
-                    self.dismissViewControllerAnimated(true) { _ in
+                    dispatch_async(dispatch_get_main_queue()) {
+                        print("so, so super")
+                        self.messageBody.text = ""
+                        self.sentMsgDelegate?.msgWasSent()
+                        self.navigationController?.popViewControllerAnimated(true)
                         
-                        self.sentMsgDelegate.msgWasSent()
                     }
                 }
             }

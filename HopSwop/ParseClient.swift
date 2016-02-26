@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreData
 
 class ParseClient {
     
@@ -14,7 +15,7 @@ class ParseClient {
     static let sharedInstance = ParseClient()
     
     let sharedContext = CoreDataStackManager.sharedInstance().managedObjectContext
-    
+    let tempContext = CoreDataStackManager.sharedInstance().tempContext
     
     // add a new object to Parse
     func postToParseTask(method: String, parameters: [String: AnyObject], completionHandler: (success: Bool, result: AnyObject?, errorString: String?) -> Void) -> NSURLSessionDataTask {

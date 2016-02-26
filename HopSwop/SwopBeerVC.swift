@@ -37,8 +37,6 @@ class SwopBeerVC: UIViewController, SentMessageDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print("made it here")
-        
         showBackgroundBeer()
         
         showLocation()
@@ -51,11 +49,11 @@ class SwopBeerVC: UIViewController, SentMessageDelegate {
         ownerLabel.text = beer.userOwner!.username
         notesView.text = beer.descrip
         
+        notesView.editable = false
+        
         if beer.userOwner == User.thisUser {
             msgButton.setTitle("Edit your beer details", forState: .Normal)
         }
-
-        
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -71,10 +69,11 @@ class SwopBeerVC: UIViewController, SentMessageDelegate {
         if beerPin == nil {
             
             beerPin = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
-            beerPin!.pinTintColor = AppDelegate.spruce
+            
         } else {
             beerPin!.annotation = annotation
         }
+        beerPin!.pinTintColor = AppDelegate.spruce
         
         return beerPin!
     }
@@ -111,6 +110,8 @@ class SwopBeerVC: UIViewController, SentMessageDelegate {
     // MessageWasSentDelegate protocol:
     func msgWasSent() {
         // popVC or stay here?
+        dispatch_async(dispatch_get_main_queue()) {
+            self.displayGenericAlert("Message was sent.", message: "")
+        }
     }
-    
 }

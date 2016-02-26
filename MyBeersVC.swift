@@ -13,13 +13,7 @@ class MyBeersVC: UIViewController, NSFetchedResultsControllerDelegate, UITableVi
     
     @IBOutlet weak var swopTable: UITableView!
     @IBOutlet weak var watchTable: UITableView!
-    
-    var listOfBeers = [String]()
-    var listOfBrewers = [String]()
-    
-    var watchbeerlist = [HalfBeer]()
-    var swopbeerlist = [Beer]()
-    
+     
     let currUser = User.thisUser
     
     override func viewDidLoad() {
@@ -53,18 +47,25 @@ class MyBeersVC: UIViewController, NSFetchedResultsControllerDelegate, UITableVi
         return CoreDataStackManager.sharedInstance().managedObjectContext
     }
 
+    func showEditor() {
+        let beerEditor = storyboard!.instantiateViewControllerWithIdentifier("BeerEditor") as! BeerEditorVC
+        navigationController?.pushViewController(beerEditor, animated: true)
+    }
+
+    // MARK: - FetchedResults Controllers
+    
     lazy var watchedResultsController: NSFetchedResultsController = {
         
         let fetchRequest = NSFetchRequest(entityName: "Beer")
         
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "beerName", ascending: true)]
-        fetchRequest.predicate = NSPredicate(format: "watcher == %@", User.thisUser)
-        
+        fetchRequest.predicate = NSPredicate(format: "watcher == %@", self.currUser)
         let watchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
             managedObjectContext: self.sharedContext,
             sectionNameKeyPath: nil,
             cacheName: nil)
         watchedResultsController.delegate = self
+        
         return watchedResultsController
     }()
     
@@ -73,7 +74,7 @@ class MyBeersVC: UIViewController, NSFetchedResultsControllerDelegate, UITableVi
         let fetchRequest = NSFetchRequest(entityName: "Beer")
         
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "beerName", ascending: true)]
-        fetchRequest.predicate = NSPredicate(format: "userOwner == %@", User.thisUser)
+        fetchRequest.predicate = NSPredicate(format: "userOwner == %@", self.currUser)
         
         let swoppedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
             managedObjectContext: self.sharedContext,
@@ -81,13 +82,11 @@ class MyBeersVC: UIViewController, NSFetchedResultsControllerDelegate, UITableVi
             cacheName: nil)
     
         swoppedResultsController.delegate = self
+        
         return swoppedResultsController
     }()
     
-    func showEditor() {
-        let beerEditor = storyboard!.instantiateViewControllerWithIdentifier("BeerEditor") as! BeerEditorVC
-        navigationController?.pushViewController(beerEditor, animated: true)
-    }
+    // MARK: - UITableView Delegate/Datasource
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let controller = (tableView == swopTable) ? swoppedResultsController : watchedResultsController
@@ -98,6 +97,7 @@ class MyBeersVC: UIViewController, NSFetchedResultsControllerDelegate, UITableVi
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         if tableView == swopTable {
+            
             let swopCell = tableView.dequeueReusableCellWithIdentifier("mySwopCell")!
             let beer = swoppedResultsController.objectAtIndexPath(indexPath) as! Beer
             
@@ -178,6 +178,7 @@ class MyBeersVC: UIViewController, NSFetchedResultsControllerDelegate, UITableVi
             
             switch type {
             case .Insert:
+                print("these are my oh are scrubs")
                 table.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Fade)
                 
             case .Delete:
@@ -195,6 +196,7 @@ class MyBeersVC: UIViewController, NSFetchedResultsControllerDelegate, UITableVi
     func controllerDidChangeContent(controller: NSFetchedResultsController) {
         
         let table = (controller == swoppedResultsController) ? swopTable : watchTable
+        
         table.endUpdates()
     }
     

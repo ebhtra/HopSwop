@@ -9,146 +9,53 @@
 import UIKit
 import CoreData
 
-class BeerListVC: UIViewController, NSFetchedResultsControllerDelegate, UITableViewDelegate, UITableViewDataSource {
-    
+class BeerListVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var beerTable: UITableView!
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         showBackgroundBeer()
-        do {
-            try fetchedResultsController.performFetch()
-        } catch {}
         
-        fetchedResultsController.delegate = self
+        // refreshList()  //- User can use refresh button for now
     }
+    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         let button = parentViewController?.navigationItem.rightBarButtonItem
         button!.target = self
         button?.action = "refreshList"
     }
-    var sharedContext: NSManagedObjectContext {
-        return CoreDataStackManager.sharedInstance().managedObjectContext
-    }
-    
-    lazy var fetchedResultsController: NSFetchedResultsController = {
-        
-        let fetchRequest = NSFetchRequest(entityName: "Beer")
-        
-        fetchRequest.sortDescriptors = []
-        fetchRequest.predicate = NSPredicate(format: "owner != nil")  // (format: "watcher == %@", @NO)  maybe??
-        
-        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
-            managedObjectContext: self.sharedContext,
-            sectionNameKeyPath: nil,
-            cacheName: nil)
-        
-        return fetchedResultsController
-        
-    }()
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let sectionInfo = self.fetchedResultsController.sections![section]
-        
-        return sectionInfo.numberOfObjects
+        return BeerList.menu.count
     }
     
     func tableView(tableView: UITableView,
         cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
             let ReuseIdentifier = "beerCell"
             
-            let beer = fetchedResultsController.objectAtIndexPath(indexPath) as! Beer
+            let beer = BeerList.menu[indexPath.row]
             
-            let cell = tableView.dequeueReusableCellWithIdentifier(ReuseIdentifier) as! BeerCell
+            let cell = tableView.dequeueReusableCellWithIdentifier(ReuseIdentifier)
             
-            configureCell(cell, beer: beer)
+            cell!.detailTextLabel?.text = beer.brewer
+            cell!.textLabel?.text = beer.beerName
             
-            return cell
-    }
-    /*   don't think we want to edit this
-
-    func tableView(tableView: UITableView,
-        commitEditingStyle editingStyle: UITableViewCellEditingStyle,
-        forRowAtIndexPath indexPath: NSIndexPath) {
+     // TODO: - Add location ability to sort by proximity
             
-            switch (editingStyle) {
-            case .Delete:
-                
-                // Here we get the actor, then delete it from core data
-                let beer = fetchedResultsController.objectAtIndexPath(indexPath) as! Beer
-                sharedContext.deleteObject(beer)
-                CoreDataStackManager.sharedInstance().saveContext()
-                
-            default:
-                break
-            }
-    }
-    */
-    // MARK: - Fetched Results Controller Delegate
-   
-    func controllerWillChangeContent(controller: NSFetchedResultsController) {
-        beerTable.beginUpdates()
+            return cell!
     }
     
-    func controller(controller: NSFetchedResultsController,
-        didChangeSection sectionInfo: NSFetchedResultsSectionInfo,
-        atIndex sectionIndex: Int,
-        forChangeType type: NSFetchedResultsChangeType) {
-            
-            switch type {
-            case .Insert:
-                beerTable.insertSections(NSIndexSet(index: sectionIndex), withRowAnimation: .Fade)
-                
-            case .Delete:
-                beerTable.deleteSections(NSIndexSet(index: sectionIndex), withRowAnimation: .Fade)
-                
-            default:
-                return
-            }
-    }
-    
-    //
-    // This is the most interesting method. Take particular note of way the that newIndexPath
-    // parameter gets unwrapped and put into an array literal: [newIndexPath!]
-    //
-    func controller(controller: NSFetchedResultsController,
-        didChangeObject anObject: AnyObject,
-        atIndexPath indexPath: NSIndexPath?,
-        forChangeType type: NSFetchedResultsChangeType,
-        newIndexPath: NSIndexPath?) {
-            
-            switch type {
-            case .Insert:
-                beerTable.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Fade)
-                
-            case .Delete:
-                beerTable.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Fade)
-                
-            case .Update:
-                let cell = beerTable.cellForRowAtIndexPath(indexPath!) as! BeerCell
-                let beer = controller.objectAtIndexPath(indexPath!) as! Beer
-                self.configureCell(cell, beer: beer)
-                
-            case .Move:
-                beerTable.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Fade)
-                beerTable.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Fade)
-            }
-    }
-    
-    func controllerDidChangeContent(controller: NSFetchedResultsController) {
-        beerTable.endUpdates()
-    }
-
     func refreshList() {
-        
+        // store a batch of beers from the Parse API and load them into map
+        ParseClient.sharedInstance.refreshBeers() { success in
+            if success {
+                dispatch_async(dispatch_get_main_queue()) { _ in
+                    self.beerTable.reloadData()
+                }
+            }
+        }
     }
-    func configureCell(cell: BeerCell, beer: Beer) {
-        cell.brewery.text = beer.brewer
-        cell.beerName.text = beer.beerName
-    }
-
 }
 

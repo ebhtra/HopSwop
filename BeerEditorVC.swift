@@ -62,7 +62,7 @@ class BeerEditorVC: BeerLoginController, UITableViewDelegate, UITableViewDataSou
         isHomeBrew = homebrewSwitch.on
         drinkBy = beerDateSwitch.on
         
-        tapRecognizer!.cancelsTouchesInView = false
+        tapRecognizer!.cancelsTouchesInView = false  // otherwise tableView taps don't work
         
     }
     override func viewWillAppear(animated: Bool) {
@@ -118,7 +118,7 @@ class BeerEditorVC: BeerLoginController, UITableViewDelegate, UITableViewDataSou
             swopDict[Beer.Keys.BornOn] = !beerDateSwitch.on
             swopDict[Beer.Keys.DrinkDate] = tryForDate()
             swopDict[Beer.Keys.Descrip] = tryForNotes()
-            swopDict[Beer.Keys.BrewDBID] = currentBeer?.dbID ?? currentHalfBeer!.id ?? "New Beer"
+            swopDict[Beer.Keys.BrewDBID] = currentBeer?.dbID ?? currentHalfBeer?.id ?? "New Beer"
             
             swopDict[Beer.Keys.ParseOwner] = PFUser.currentUser()!.objectId!
             
@@ -126,8 +126,8 @@ class BeerEditorVC: BeerLoginController, UITableViewDelegate, UITableViewDataSou
             
                 ParseClient.sharedInstance.postBeer(swopDict) { success, error in
                     if success {
-                      
                         print("yessir")
+                        
                     } else {
                     
                         print("bigtime error-- \(error)")
@@ -140,6 +140,7 @@ class BeerEditorVC: BeerLoginController, UITableViewDelegate, UITableViewDataSou
                 ParseClient.sharedInstance.updateSwop(swopDict) { success, error in
                     if success {
                         self.displayGenericAlert("Success--", message: "Your beer details were updated.")
+                        // save coredate here or at end of client call
                     } else {
                         self.displayGenericAlert("Error--", message: error!)
                     }
@@ -155,8 +156,8 @@ class BeerEditorVC: BeerLoginController, UITableViewDelegate, UITableViewDataSou
             displayGenericAlert("Please enter a beer name and brewer.", message: "")
         } else {
             var watchDict = [String: AnyObject]()
-            watchDict[Beer.Keys.Lat] = 500.0
-            watchDict[Beer.Keys.Lon] = 500.0
+            watchDict[Beer.Keys.Lat] = 50.0
+            watchDict[Beer.Keys.Lon] = 50.0
             watchDict[Beer.Keys.Name] = currentBeerDisplay.text!
             watchDict[Beer.Keys.Brewer] = currentBeerBrewer.text!
             watchDict[Beer.Keys.Vessel] = ""
@@ -166,10 +167,12 @@ class BeerEditorVC: BeerLoginController, UITableViewDelegate, UITableViewDataSou
             watchDict[Beer.Keys.BrewDBID] = currentHalfBeer?.id ?? ""
             watchDict[Beer.Keys.ParseID] = ""
             
-            let newBeer = Beer(dict: watchDict, context: sharedContext)
-            newBeer.watcher = User.thisUser
+            sharedContext.performBlockAndWait() {
+                let newBeer = Beer(dict: watchDict, context: self.sharedContext)
+                newBeer.watcher = User.thisUser
             
-            CoreDataStackManager.sharedInstance().saveContext()
+                CoreDataStackManager.sharedInstance().saveContext()
+            }
             
             navigationController!.popViewControllerAnimated(true)
         }

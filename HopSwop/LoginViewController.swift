@@ -18,14 +18,18 @@ class LoginViewController: BeerLoginController, FBSDKLoginButtonDelegate {
     
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var signupButton: UIButton!
+    
+    // FB login hidden for this version of app
     @IBOutlet weak var facebookButton: FBSDKLoginButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        facebookButton.hidden = true
+        
         //See if user is logged in with Parse
         if let user = PFUser.currentUser() {
-            print(user.valueForKey("emailVerified") as! Bool)
+            
             if user.authenticated && user.valueForKey("emailVerified") as! Bool == true {
                 completeLogin()
             }
@@ -64,20 +68,21 @@ class LoginViewController: BeerLoginController, FBSDKLoginButtonDelegate {
             }
         }
     }
-    func loginButton(loginButton: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError!) {
-        print("fb logged in")
-    }
-    func loginButtonDidLogOut(loginButton: FBSDKLoginButton!) {
-        print("fb logged out")
-    }
     func completeLogin() {
         dispatch_async(dispatch_get_main_queue()) {
             let controller = self.storyboard!.instantiateViewControllerWithIdentifier("RootNavController") as! UINavigationController
             self.presentViewController(controller, animated: true, completion: nil)
         }
     }
-
     
+    
+    // FB login works, but app doesn't use it yet. Need to link FB User with Parse User
+    func loginButton(loginButton: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError!) {
+        print("fb logged in")
+    }
+    func loginButtonDidLogOut(loginButton: FBSDKLoginButton!) {
+        print("fb logged out")
+    }
 
 }
 

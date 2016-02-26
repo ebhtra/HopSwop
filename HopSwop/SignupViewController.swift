@@ -50,6 +50,5 @@ class SignupViewController: BeerLoginController {
     @IBAction func goBack(sender: UIButton) {
         dismissViewControllerAnimated(true, completion: nil)
     }
-    // TODO:
-    //  --raise keyboard for entering text in fields
 }
+    

@@ -68,6 +68,14 @@ class CoreDataStackManager {
         return managedObjectContext
     }()
     
+    lazy var tempContext: NSManagedObjectContext = {
+        // This will be used as a holding area for Parse objects before they are potentially passed and saved to the managedObjectContext
+        let coord = self.persistentStoreCoordinator
+        let tempContext = NSManagedObjectContext(concurrencyType: .MainQueueConcurrencyType)
+        tempContext.persistentStoreCoordinator = coord
+        return tempContext
+    }()
+    
     // MARK: - Core Data Saving support
     
     func saveContext () {
