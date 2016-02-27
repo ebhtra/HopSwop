@@ -14,14 +14,17 @@ class User: NSManagedObject {
     static let sharedUser = User()
     
     static var thisUser: User {
-        if let me = getUniqueUser(PFUser.currentUser()!.objectId!) {
+        
+        if let me = self.getUniqueUser(PFUser.currentUser()!.objectId!) {
+            print("returning User: \(me)")
             return me
             
         } else {  // User's first time using the app:
-            
-         return User(dict: [Keys.ParseID: PFUser.currentUser()!.objectId!,
-         Keys.Username: PFUser.currentUser()!.username!], context: sharedContext)
+            print("first-time User: \(me)")
+            return User(dict: [Keys.ParseID: PFUser.currentUser()!.objectId!,
+                Keys.Username: PFUser.currentUser()!.username!], context: sharedContext)
         }
+        
     }
     
     static let sharedContext = CoreDataStackManager.sharedInstance().managedObjectContext

@@ -15,6 +15,7 @@ class BeerListVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         showBackgroundBeer()
         
         // refreshList()  //- User can use refresh button for now

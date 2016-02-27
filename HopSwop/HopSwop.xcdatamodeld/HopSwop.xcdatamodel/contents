@@ -16,9 +16,9 @@
         <relationship name="watcher" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="watchBeer" inverseEntity="User" syncable="YES"/>
     </entity>
     <entity name="Message" representedClassName=".Message" syncable="YES">
-        <attribute name="createdAt" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="createdAt" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="msgText" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="objectId" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="msgFrom" maxCount="1" deletionRule="Cascade" destinationEntity="User" inverseName="sentMsg" inverseEntity="User" syncable="YES"/>
         <relationship name="msgTo" maxCount="1" deletionRule="Cascade" destinationEntity="User" inverseName="gotMsg" inverseEntity="User" syncable="YES"/>
     </entity>

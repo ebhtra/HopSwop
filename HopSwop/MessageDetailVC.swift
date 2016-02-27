@@ -38,7 +38,7 @@ class MessageDetailVC: BeerLoginController, SentMessageDelegate {
 
         toFromLabel.text = "\(toFrom) \(otherUser.username) \(message.createdAt)"
         
-        msgBody.text = message.text
+        msgBody.text = message.msgText
     }
     
     // SentMessageDelegate protocol:

@@ -52,7 +52,7 @@ extension ParseClient {
     struct MsgKeys {
         static let MsgTo = "msgTo"
         static let MsgFrom = "msgFrom"
-        static let Text = "msgText"
+        static let MsgText = "msgText"
         static let IsNew = "isNew"
     }
     // MARK: - Parameter Keys

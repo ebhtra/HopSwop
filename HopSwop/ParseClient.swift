@@ -133,7 +133,8 @@ class ParseClient {
 
 
     /* Helper function: Given a dictionary of parameters, convert to a string for a URL.
-    Copied and pasted from Jarrod Parkes' Movie Manager app on Udacity */
+    Copied and pasted from Jarrod Parkes' Movie Manager app on Udacity, since the Parse REST API docs examples are for Python
+    */
     class func escapedParameters(parameters: [String : AnyObject]) -> String {
         
         var urlVars = [String]()

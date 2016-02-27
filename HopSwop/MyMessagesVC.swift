@@ -28,9 +28,9 @@ class MyMessagesVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         
         let fetchRequest = NSFetchRequest(entityName: "Message")
         
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "createdAt", ascending: true)]
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "createdAt", ascending: false)]
         
-        fetchRequest.predicate = NSPredicate(format: "msgFrom == %@", User.thisUser)
+        //fetchRequest.predicate = NSPredicate(format: "msgFrom == %@", User.thisUser)
         
         let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
             managedObjectContext: self.sharedContext,
@@ -46,17 +46,28 @@ class MyMessagesVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         super.viewWillAppear(animated)
         let button = parentViewController?.navigationItem.rightBarButtonItem
         button!.target = self
-        button?.action = "refreshMessages"
+        button?.action = "refreshMessageBoard"
         
-        refreshMessages()
+        refreshMsgs() // or let user do it with button?
 
     }
     
-    func refreshMessages() {
+    func refreshMsgs() {
         do {
             try fetchedResultsController.performFetch()
         } catch {
             print(error)
+        }
+    }
+    
+    func refreshMessageBoard() {
+        // query Parse for any new messages to the User, persist them to the store, and refresh the board
+        ParseClient.sharedInstance.refreshMessages() { error in
+            if let err = error {
+                self.displayGenericAlert("Sorry, but the message board didn't refresh--", message: err)
+            } else {
+                self.refreshMsgs()
+            }
         }
     }
     
@@ -69,7 +80,7 @@ class MyMessagesVC: UIViewController, UITableViewDataSource, UITableViewDelegate
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("MsgCell") as! MessageCell
         let msg = fetchedResultsController.objectAtIndexPath(indexPath) as! Message
-        cell.messageTextLabel.text = msg.text
+        cell.messageTextLabel.text = msg.msgText
         if msg.msgFrom == User.thisUser {
             cell.toFromLabel.text = "TO"
             cell.otherUserLabel.text = msg.msgTo.username
@@ -90,7 +101,14 @@ class MyMessagesVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         
         navigationController?.pushViewController(msgVC, animated: true)
     }
-
+    
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if editingStyle == .Delete {
+            let msg = fetchedResultsController.objectAtIndexPath(indexPath) as! Message
+            sharedContext.deleteObject(msg)
+            CoreDataStackManager.sharedInstance().saveContext()
+        }
+    }
     
     // MARK: - Fetched Results Controller Delegate
     

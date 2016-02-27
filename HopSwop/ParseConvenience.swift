@@ -13,7 +13,7 @@ extension ParseClient {
     func refreshBeers(completion: (success: Bool) -> Void) {
         // build parameters array
         var params = [String: AnyObject]()
-        params[ParseClient.ParameterKeys.Order] = "-updatedAt"
+        params[ParseClient.ParameterKeys.Order] = "-updatedAt" // probably not needed, since the only data displayed directly from API calls, as opposed to CoreData fetches, is map points
         
         // add method
         let method = ParseClient.Methods.BeerObj
@@ -30,7 +30,7 @@ extension ParseClient {
                         BeerList.menu = [Beer]()
                         for dict in results {
                             let owner = dict["owner"] as! String
-                            if owner != User.thisUser.parseId { // so it's not the user's beer
+                            if owner != PFUser.currentUser()?.objectId { // so it's not the user's beer. (maybe should filter this on Parse query instead?)
                                 let newBeer = Beer(dict: dict, context: self.tempContext)
                                 newBeer.objectId = dict[Beer.Keys.ParseID] as? String
                                 newBeer.owner = dict[Beer.Keys.ParseOwner] as? String
@@ -63,20 +63,34 @@ extension ParseClient {
     func postMessage(to: User, msg: String, completion: (success: Bool, errorString: String?) -> Void) {
         
         var dict = [String: AnyObject]()
-        dict[ParseClient.MsgKeys.IsNew] = false
-        dict[ParseClient.MsgKeys.MsgFrom] = PFUser.currentUser()?.objectId
-        dict[ParseClient.MsgKeys.MsgTo] = to.parseId
-        dict[ParseClient.MsgKeys.Text] = msg
+        dict[Message.Keys.IsNew] = true
+        dict[Message.Keys.MsgFrom] = PFUser.currentUser()?.objectId
+        dict[Message.Keys.MsgTo] = to.parseId
+        dict[Message.Keys.MsgBody] = msg
 
         let method = ParseClient.Methods.MsgObj
         
         postToParseTask(method, parameters: dict) { success, result, error in
             
             if success {
-                print(result)
+                print("post msg to parse result = \(result)")
+                let created = result!["createdAt"] as! String
+                let obj = result!["objectId"] as! String
+                
+                var coreDict = [String: AnyObject]()
+                coreDict[Message.Keys.IsNew] = true
+                coreDict[Message.Keys.MsgFrom] = User.thisUser
+                coreDict[Message.Keys.MsgTo] = to
+                coreDict[Message.Keys.MsgBody] = msg
+                coreDict[Message.Keys.CreatedAt] = created
+                coreDict[Message.Keys.ParseID] = obj
+
+                let _ = Message(dict: coreDict, context: self.sharedContext)
+                
                 completion(success: true, errorString: nil)
             } else {
-                print(error)
+                print("parsePostProbs: \(error)")
+                completion(success: false, errorString: error)
             }
         }
         
@@ -131,6 +145,54 @@ extension ParseClient {
                 completion(name: user, errorString: nil)
             }
             
+        }
+    }
+    
+    func refreshMessages(completion: (errorString: String?) -> Void) {
+        
+        var params = [String: AnyObject]()
+        params[Message.Keys.MsgTo] = PFUser.currentUser()?.objectId
+        params[Message.Keys.IsNew] = true
+        
+        ParseClient.sharedInstance.getFromParseTask(ParseClient.Methods.MsgObj, parameters: params) { result, nsErr in
+            
+            if let _ = nsErr {
+                print("error in the parse get message call:  \(nsErr!.localizedDescription)")
+                completion(errorString: nsErr!.localizedDescription)
+                
+            } else {
+                
+                if let results = result.valueForKey("results") as? [[String: AnyObject]] {
+                    
+                    // init Messages on main queue since that's where MOC's exist
+                    self.sharedContext.performBlockAndWait() {
+                    
+                        for dict in results {
+                            
+                            var coreDict = [String: AnyObject]()
+                                
+                            let sender = User.getUniqueUser(dict[Message.Keys.MsgFrom] as! String) // 1st time returns a lightweight User to use as msgFrom
+                            
+                            coreDict[Message.Keys.MsgFrom] = sender!
+                            coreDict[Message.Keys.MsgTo] = User.thisUser
+                            coreDict[Message.Keys.MsgBody] = dict[Message.Keys.MsgBody]
+                            coreDict[Message.Keys.CreatedAt] = dict[Message.Keys.CreatedAt]
+                            coreDict[Message.Keys.ParseID] = dict[Message.Keys.ParseID]
+                            print("sender = \(coreDict[Message.Keys.MsgFrom])")
+                            
+                            let _ = Message(dict: coreDict, context: self.sharedContext)
+                        }
+                        
+                        CoreDataStackManager.sharedInstance().saveContext()
+                        
+                        completion(errorString: nil)
+                    }
+                    
+                } else {
+                    print("no results returned from Parse, and no explanation")
+                    completion(errorString: nil)
+                }
+            }
         }
     }
 }
