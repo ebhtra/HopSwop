@@ -23,14 +23,14 @@ class SwopBeerVC: UIViewController, SentMessageDelegate {
     
     @IBAction func msgButtonClick(sender: UIButton) {
         
-        if beer.userOwner == User.thisUser {
+        if beer.userOwner == User.thisUser {   // i guess these are equalTo but they are in different contexts, or would be if they were saved
             edit(beer)
         } else {
             sendMsg(beer)
         }
     }
     
-    var beer: Beer!
+    var beer: Beer!  // this is still in temp context here
     
     var pin = MKPointAnnotation()
     
@@ -51,7 +51,7 @@ class SwopBeerVC: UIViewController, SentMessageDelegate {
         
         notesView.editable = false
         
-        if beer.userOwner == User.thisUser {
+        if beer.userOwner == User.thisUser {  // i guess these are equalTo but they are in different contexts, or would be if they were saved
             msgButton.setTitle("Edit your beer details", forState: .Normal)
         }
     }

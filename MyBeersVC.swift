@@ -13,8 +13,6 @@ class MyBeersVC: UIViewController, NSFetchedResultsControllerDelegate, UITableVi
     
     @IBOutlet weak var swopTable: UITableView!
     @IBOutlet weak var watchTable: UITableView!
-     
-    let currUser = User.thisUser
     
     override func viewDidLoad() {
         
@@ -59,7 +57,7 @@ class MyBeersVC: UIViewController, NSFetchedResultsControllerDelegate, UITableVi
         let fetchRequest = NSFetchRequest(entityName: "Beer")
         
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "beerName", ascending: true)]
-        fetchRequest.predicate = NSPredicate(format: "watcher == %@", self.currUser)
+        fetchRequest.predicate = NSPredicate(format: "watcher == %@", User.thisUser!)
         let watchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
             managedObjectContext: self.sharedContext,
             sectionNameKeyPath: nil,
@@ -74,7 +72,7 @@ class MyBeersVC: UIViewController, NSFetchedResultsControllerDelegate, UITableVi
         let fetchRequest = NSFetchRequest(entityName: "Beer")
         
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "beerName", ascending: true)]
-        fetchRequest.predicate = NSPredicate(format: "userOwner == %@", self.currUser)
+        fetchRequest.predicate = NSPredicate(format: "userOwner == %@", User.thisUser!)
         
         let swoppedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
             managedObjectContext: self.sharedContext,

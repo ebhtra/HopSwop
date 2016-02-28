@@ -12,7 +12,7 @@ class SendMessageVC: BeerLoginController {
     
     var sentMsgDelegate: SentMessageDelegate!
 
-    var toUser: User!
+    var toUser: User!  // still in temp context at this point
     
     @IBOutlet weak var toLabel: UILabel!
     
@@ -25,7 +25,7 @@ class SendMessageVC: BeerLoginController {
             displayGenericAlert("Error:", message: "Your message is empty.")
             
         } else {
-            
+           // maybe dispatch to main thread here instead of a few lines down??
             ParseClient.sharedInstance.postMessage(toUser, msg: messageBody.text) { success, error in
                 
                 if let err = error {
@@ -36,6 +36,8 @@ class SendMessageVC: BeerLoginController {
                     dispatch_async(dispatch_get_main_queue()) {
                         
                         self.messageBody.text = ""
+                        
+                        
                         
                         self.sentMsgDelegate?.msgWasSent()
                         

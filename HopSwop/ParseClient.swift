@@ -58,6 +58,7 @@ class ParseClient {
         
         // Build the URL and configure the request
         let urlString = Constants.BaseParseRequest + method + ParseClient.escapedParameters(mutableParameters)
+        print("here's my damn url string for get task:  \(urlString)")
         let url = NSURL(string: urlString)!
         let request = NSMutableURLRequest(URL: url)
         request.addValue(Constants.ParseAppID, forHTTPHeaderField: "X-Parse-Application-Id")
@@ -65,10 +66,13 @@ class ParseClient {
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         let session = NSURLSession.sharedSession()
         let task = session.dataTaskWithRequest(request) { data, response, error in
+            print("response:  \(response)")
             if error != nil {
+                print("how did this fucking error slip thru??  \(error!.localizedDescription)")
                 completionHandler(result: nil, error: error!)
             } else {
                 let results = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments)) as! NSDictionary
+                print("well, here are the promising results:  \(results)")
                 completionHandler(result: results, error: nil)
             }
         }

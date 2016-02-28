@@ -22,6 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+        
         //link app to Parse.com
         Parse.setApplicationId("QqljByEk29sl0AlCog1B93iATtZnD53JUCSwKGcL", clientKey: "1A1nVdUIVN83LML5s8xB5BOFs0xwP544kEznS2gh")
         

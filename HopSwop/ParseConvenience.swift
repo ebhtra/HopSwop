@@ -36,7 +36,7 @@ extension ParseClient {
                                 newBeer.owner = dict[Beer.Keys.ParseOwner] as? String
                                 self.getUsernameFromId(newBeer.owner!) { name, error in
                                     if let newName = name {
-                                        dispatch_async(dispatch_get_main_queue()) {
+                                        dispatch_async(dispatch_get_main_queue()) {  // this has to be a bad idea, to create a User in the temp context
                                             newBeer.userOwner = User(dict: [User.Keys.Username: newName, User.Keys.ParseID: newBeer.owner!], context: self.tempContext)
                                         }
                                     } else {
@@ -76,17 +76,22 @@ extension ParseClient {
                 print("post msg to parse result = \(result)")
                 let created = result!["createdAt"] as! String
                 let obj = result!["objectId"] as! String
-                
+                var coreUser: User!
+                self.sharedContext.performBlockAndWait() {
+                    coreUser = User.getUniqueUser(to.parseId)!
+                }
                 var coreDict = [String: AnyObject]()
                 coreDict[Message.Keys.IsNew] = true
                 coreDict[Message.Keys.MsgFrom] = User.thisUser
-                coreDict[Message.Keys.MsgTo] = to
+                coreDict[Message.Keys.MsgTo] = coreUser  // get a uniqueUser in shared context here
                 coreDict[Message.Keys.MsgBody] = msg
                 coreDict[Message.Keys.CreatedAt] = created
                 coreDict[Message.Keys.ParseID] = obj
-
-                let _ = Message(dict: coreDict, context: self.sharedContext)
                 
+                dispatch_async(dispatch_get_main_queue()) {
+
+                    let _ = Message(dict: coreDict, context: self.sharedContext)
+                }
                 completion(success: true, errorString: nil)
             } else {
                 print("parsePostProbs: \(error)")
@@ -134,13 +139,15 @@ extension ParseClient {
     }
     
     func getUsernameFromId(userParseId: String, completion: (name: String?, errorString: String?) -> Void) {
-        
+        print("getting username, hold on...")
         ParseClient.sharedInstance.getFromParseTask(ParseClient.Methods.UserObj + userParseId, parameters: [:]) { results, nsErr in
             if nsErr != nil {
+                print("this fucking error: \(nsErr!.localizedDescription)")
                 completion(name: nil, errorString: nsErr!.localizedDescription)
                 
             } else {
-                //print("user search task results = \(results)")
+                
+                print("user search task results = \(results)")
                 let user = results[User.Keys.Username] as? String
                 completion(name: user, errorString: nil)
             }
